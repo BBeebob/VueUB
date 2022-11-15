@@ -1,9 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+//import { getAnalytics } from "firebase/analytics";
+import {
+  getFirestore /*collection
+, getDocs*/,
+} from "firebase/firestore";
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCD7lvEshVoJM6smIKZCWNKyizm2TuPBKA",
   authDomain: "projectub-f79e6.firebaseapp.com",
   databaseURL:
@@ -16,12 +19,13 @@ export const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
+const app = initializeApp(firebaseConfig);
+//export const analytics = getAnalytics(app);
 export const db = getFirestore(app);
-export async function getities(db) {
+
+/*export async function getities(db) {
   const citiesCol = collection(db, "cities");
   const citySnapshot = await getDocs(citiesCol);
   const cityList = citySnapshot.docs.map((doc) => doc.data());
   return cityList;
-}
+}*/
