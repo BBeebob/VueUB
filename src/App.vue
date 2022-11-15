@@ -6,7 +6,7 @@
   </v-app>
 </template>
 
-<script>
+<script> 
 
 export default {
   name: 'App',
