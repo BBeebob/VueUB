@@ -5,6 +5,11 @@ import {
   getFirestore /*collection
 , getDocs*/,
 } from "firebase/firestore";
+import {
+  getAuth,
+  // signInWithEmailAndPassword,
+  // onAuthStateChanged,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCD7lvEshVoJM6smIKZCWNKyizm2TuPBKA",
@@ -29,3 +34,5 @@ export const db = getFirestore(app);
   const cityList = citySnapshot.docs.map((doc) => doc.data());
   return cityList;
 }*/
+
+export const auth = getAuth(app);

@@ -28,6 +28,7 @@
       <v-main style="height: 100vh">
         <div class="d-flex justify-center align-center h-100">
           <v-btn color="primary" @click.stop="drawer = !drawer"> Toggle </v-btn>
+          <v-btn color="blue" @click="logout()"> Logout </v-btn>
         </div>
       </v-main>
     </v-layout>
@@ -35,11 +36,22 @@
 </template>
 
 <script>
+import { auth } from "../DB";
+
+import { signOut } from "firebase/auth";
+
 export default {
   data() {
     return {
       drawer: null,
     };
+  },
+  methods: {
+    logout() {
+      //--
+      signOut(auth);
+      console.log("logout");
+    },
   },
 };
 </script>
