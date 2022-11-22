@@ -28,7 +28,12 @@
       <v-main style="height: 100vh">
         <div class="d-flex justify-center align-center h-100">
           <v-btn color="primary" @click.stop="drawer = !drawer"> Toggle </v-btn>
-          <v-btn color="blue" @click="logout()"> Logout </v-btn>
+          <v-btn v-if="user.loginUser" color="blue" @click="logout()">
+            Logout
+          </v-btn>
+          <v-btn v-if="!user.loginUser" color="blue" @click="login()">
+            Login
+          </v-btn>
         </div>
       </v-main>
     </v-layout>
@@ -39,16 +44,27 @@
 import { auth } from "../DB";
 
 import { signOut } from "firebase/auth";
+import { useUserStore } from "@/stores/user";
+import router from "../router";
 
 export default {
+  setup() {
+    const user = useUserStore();
+    return { user };
+  },
   data() {
     return {
       drawer: null,
     };
   },
+  computed: {},
   methods: {
+    login() {
+      router.push("/login");
+    },
     logout() {
       //--
+      console.log(this.uid);
       signOut(auth);
       console.log("logout");
     },

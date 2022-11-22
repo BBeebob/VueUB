@@ -1,8 +1,11 @@
 <template>
   <div class="login">
-    <h1>Login page</h1>
-
-    <v-card class="mx-auto" max-width="344" variant="outlined">
+    <v-card
+      v-if="!user.loginUser"
+      class="mx-auto"
+      max-width="344"
+      variant="outlined"
+    >
       <v-card-item>
         <div>
           <div class="text-h2 mb-1">Login page</div>
@@ -10,12 +13,14 @@
 
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field
+              name="email"
               v-model="email"
               :rules="emailRules"
               label="E-mail"
               required
             ></v-text-field>
             <v-text-field
+              name="pass"
               v-model="pass"
               :counter="20"
               :rules="passRules"
@@ -37,47 +42,34 @@
 </template>
 
 <script>
+import router from "../router";
 import { auth } from "../DB";
 import {
   // getAuth,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
+  // onAuthStateChanged,
 } from "firebase/auth";
-import router from "../router";
-// import { useRootStore } from "@/stores/root";
+
+import { useUserStore } from "@/stores/user";
 // import { mapActions } from 'pinia'
 
 // const root = useRootStore();
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
-    // ...
-    console.log(uid);
-    console.log("ล็อกอินแล้วจ้า");
-    router.push("/");
-    // root.login();
-  } else {
-    // User is signed out
-    // ...
-    console.log("no user");
-    // root.logout();
-  }
-});
-
 export default {
   name: "LoginPage",
+  setup() {
+    const user = useUserStore();
+    return { user };
+  },
   data: () => ({
     show: false,
     valid: true,
-    pass: "",
+    pass: "080808088850085",
     passRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 20) || "Name must be less than 10 characters",
     ],
-    email: "",
+    email: "std.62122420108@ubru.ac.th",
     emailRules: [
       (v) => !!v || "E-mail is required",
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -85,7 +77,7 @@ export default {
 
     checkbox: false,
   }),
-
+  mounted() {},
   methods: {
     async ok() {
       console.log("Ok");
@@ -102,7 +94,6 @@ export default {
           const errorMessage = error.message;
           console.log(errorCode, errorMessage);
         });
-
       //ไปหน้าโฮม
       router.push("/");
     },
