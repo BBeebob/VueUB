@@ -15,20 +15,36 @@
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field
               name="email"
+              append-icon="mdi-email"
+              clearable
               v-model="email"
               :rules="emailRules"
               label="E-mail"
               required
             ></v-text-field>
-            <v-text-field
+            <!-- <v-text-field
               name="pass"
+              type="password"
               v-model="pass"
               :counter="20"
               :rules="passRules"
               label="Password"
               required
+            ></v-text-field> -->
+            <v-text-field
+              v-model="pass"
+              clearable
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :rules="passRules"
+              :counter="20"
+              :type="show1 ? 'text' : 'password'"
+              name="password"
+              label="Password"
+              hint="At least 20 characters"
+              @click:append="show1 = !show1"
             ></v-text-field>
-            <v-checkbox v-model="checkbox" label="จำรหัส" required></v-checkbox>
+
+            <!-- <v-checkbox v-model="checkbox" label="จำรหัส" required></v-checkbox> -->
           </v-form>
         </div>
       </v-card-item>
@@ -65,12 +81,14 @@ export default {
   data: () => ({
     show: false,
     valid: true,
-    pass: "080808088850085",
+    show1: false,
+    pass: "", //"080808088850085",
     passRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 20) || "Name must be less than 10 characters",
+      (v) => !!v || "Password is required",
+      (v) =>
+        (v && v.length <= 20) || "Password must be less than 20 characters",
     ],
-    email: "std.62122420108@ubru.ac.th",
+    email: "", //"std.62122420108@ubru.ac.th",
     emailRules: [
       (v) => !!v || "E-mail is required",
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -82,21 +100,28 @@ export default {
   methods: {
     async ok() {
       console.log("Ok");
-      //ล็อกอิน
-      signInWithEmailAndPassword(auth, this.email, this.pass)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log(user);
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode, errorMessage);
-        });
-      //ไปหน้าโฮม
-      router.push("/");
+
+      const { valid } = await this.$refs.form.validate();
+
+      if (valid) {
+        //ถ้าตรวจสอบฟอร์มผ่าน
+        //ล็อกอิน
+        signInWithEmailAndPassword(auth, this.email, this.pass)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user);
+            // ...
+            //ไปหน้าโฮม
+            router.push("/");
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+            alert("ชื่อ หรือ รหัสผ่านไม่ถูกต้อง");
+          });
+      }
     },
     close() {
       console.log("ปิด");
