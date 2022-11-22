@@ -135,7 +135,14 @@
 
 <script>
 import { auth, db } from "../DB";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  // getDocs,
+  query,
+  // where,
+  onSnapshot,
+} from "firebase/firestore";
 
 import { signOut } from "firebase/auth";
 import { useUserStore } from "@/stores/user";
@@ -167,17 +174,39 @@ export default {
     };
   },
   async mounted() {
-    const querySnapshot = await getDocs(collection(db, "Location"));
-    querySnapshot.forEach((doc) => {
-      // console.log(`${doc.id} => ${doc.data()}`);
-      console.log(doc.data());
-      this.items.push({
-        id: doc.id,
-        title: doc.data().Name,
-        subtitle: doc.data().About,
+    const q = query(collection(db, "Location"));
+    // const unsubscribe =
+    onSnapshot(q, (querySnapshot) => {
+      this.items = [];
+      querySnapshot.forEach((doc) => {
+        this.items.push({
+          id: doc.id,
+          title: doc.data().Name,
+          subtitle: doc.data().About,
+        });
       });
-      // this.items.push({ type: "divider" });
+      // console.log(unsubscribe);
     });
+
+    // const unsub = onSnapshot(doc(db, "Location", this.id), (doc) => {
+    //   // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+    //   // console.log(source, " data: ", doc.data());
+    //   this.Name = doc.data().Name;
+    //   this.About = doc.data().About;
+    // });
+    // console.log(unsub);
+
+    // const querySnapshot = await getDocs(collection(db, "Location"));
+    // querySnapshot.forEach((doc) => {
+    //   // console.log(`${doc.id} => ${doc.data()}`);
+    //   console.log(doc.data());
+    //   this.items.push({
+    //     id: doc.id,
+    //     title: doc.data().Name,
+    //     subtitle: doc.data().About,
+    //   });
+    //   // this.items.push({ type: "divider" });
+    // });
   },
   computed: {},
   watch: {
@@ -201,24 +230,10 @@ export default {
           About: this.dlgAbout,
         });
 
-        this.items.push({
-          id: docRef.id,
-          title: this.dlgName,
-          subtitle: this.dlgAbout,
-        });
-        // this.items.push({ type: "divider" });
-
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-
-      // Add a new document in collection "cities"
-      // await addDoc(doc(db, "Location"), {
-      //   Name: this.dlgName,
-      //   // Photo: this.dlgPhoto,
-      //   About: this.dlgAbout,
-      // });
 
       this.dialog = false;
     },
