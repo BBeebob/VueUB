@@ -30,10 +30,29 @@
     <v-main>
       <v-container fluid>
         <!-- list -->
-        <v-list :items="items" item-props lines="three">
+        <!-- <v-list :items="items" item-props lines="three" active-color="primary">
           <template v-slot:subtitle="{ subtitle }">
             <div v-html="subtitle"></div>
           </template>
+        </v-list> -->
+
+        <!-- --- -->
+        <v-list lines="three">
+          <v-list-subheader>สถานที่</v-list-subheader>
+
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+            :value="item"
+            active-color="primary"
+            :to="'/location/' + item.id"
+          >
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+
+            <v-list-item-subtitle>
+              {{ item.subtitle }}
+            </v-list-item-subtitle>
+          </v-list-item>
         </v-list>
         <!-- list -->
 
@@ -140,7 +159,9 @@ export default {
         { title: "ติดต่อ", icon: "mdi-comment" },
       ],
 
-      items: [{ type: "subheader", title: "รายการ" }],
+      items: [
+        // { type: "subheader", title: "สถานที่" }
+      ],
     };
   },
   async mounted() {
@@ -149,10 +170,11 @@ export default {
       // console.log(`${doc.id} => ${doc.data()}`);
       console.log(doc.data());
       this.items.push({
+        id: doc.id,
         title: doc.data().Name,
         subtitle: doc.data().About,
       });
-      this.items.push({ type: "divider" });
+      // this.items.push({ type: "divider" });
     });
   },
   computed: {},
@@ -178,10 +200,11 @@ export default {
         });
 
         this.items.push({
+          id: docRef.id,
           title: this.dlgName,
           subtitle: this.dlgAbout,
         });
-        this.items.push({ type: "divider" });
+        // this.items.push({ type: "divider" });
 
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
