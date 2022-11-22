@@ -38,7 +38,9 @@
 
         <!-- --- -->
         <v-list lines="three">
-          <v-list-subheader>สถานที่</v-list-subheader>
+          <v-list-subheader style="font-size: x-large; color: black"
+            >สถานที่</v-list-subheader
+          >
 
           <v-list-item
             v-for="(item, i) in items"
