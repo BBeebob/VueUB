@@ -3,6 +3,7 @@
     <v-card
       v-if="!user.loginUser"
       class="mx-auto"
+      style="position: absolute; left: 30px; right: 30px; bottom: 300px"
       max-width="344"
       variant="outlined"
     >
@@ -24,7 +25,7 @@
               v-model="pass"
               :counter="20"
               :rules="passRules"
-              label="Pass"
+              label="Password"
               required
             ></v-text-field>
             <v-checkbox v-model="checkbox" label="จำรหัส" required></v-checkbox>

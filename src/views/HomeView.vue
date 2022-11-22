@@ -1,43 +1,42 @@
 <template>
-  <v-card>
-    <v-layout>
-      <v-navigation-drawer v-model="drawer" temporary>
-        <v-list-item title="John Leider"></v-list-item>
+  <v-app>
+    <v-app-bar app color="primary" dark clipped-left>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>ระบบจองสถานที่ UBRU</v-toolbar-title>
 
-        <v-divider></v-divider>
+      <v-btn variant="outlined" v-if="user.loginUser" @click="logout()">
+        Logout
+      </v-btn>
+      <v-btn variant="outlined" v-if="!user.loginUser" @click="login()">
+        Login
+      </v-btn>
+    </v-app-bar>
+    <v-navigation-drawer app v-model="drawer" absolute clipped>
+      <v-list nav>
+        <v-list-item v-for="item in items" :key="item.title" link>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
 
-        <v-list nav>
-          <v-list-item
-            prepend-icon="mdi-home"
-            style="text"
-            title="Home"
-            value="home"
-          ></v-list-item>
-          <v-list-item
-            prepend-icon="mdi-home"
-            title="About"
-            value="about"
-          ></v-list-item>
-          <v-list-item
-            prepend-icon="mdi-chat"
-            title="About"
-            value="about"
-          ></v-list-item>
-        </v-list>
-      </v-navigation-drawer>
-      <v-main style="height: 100vh">
-        <div class="d-flex justify-center align-center h-100">
-          <v-btn color="primary" @click.stop="drawer = !drawer"> Toggle </v-btn>
-          <v-btn v-if="user.loginUser" color="blue" @click="logout()">
-            Logout
-          </v-btn>
-          <v-btn v-if="!user.loginUser" color="blue" @click="login()">
-            Login
-          </v-btn>
-        </div>
-      </v-main>
-    </v-layout>
-  </v-card>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-main>
+      <v-container fluid>
+        <v-btn
+          color="primary"
+          size="large"
+          style="position: absolute; right: 20px; bottom: 20px"
+          icon
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
@@ -55,6 +54,11 @@ export default {
   data() {
     return {
       drawer: null,
+      items: [
+        { title: "หน้าแรก", icon: "mdi-home" },
+        { title: "รายการจอง", icon: "mdi-book" },
+        { title: "ติดต่อ", icon: "mdi-comment" },
+      ],
     };
   },
   computed: {},
