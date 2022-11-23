@@ -333,6 +333,10 @@ export default {
           ...doc.data(),
         });
       });
+      //จัดเรียง
+      this.items.sort((a, b) =>
+        a.Name > b.title ? 1 : b.title > a.title ? -1 : 0
+      );
       console.log(this.items);
     });
   },

@@ -10,6 +10,7 @@ import {
   // signInWithEmailAndPassword,
   // onAuthStateChanged,
 } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCD7lvEshVoJM6smIKZCWNKyizm2TuPBKA",
@@ -36,3 +37,6 @@ export const db = getFirestore(app);
 }*/
 
 export const auth = getAuth(app);
+
+// Initialize Cloud Storage and get a reference to the service
+export const storage = getStorage(app);
