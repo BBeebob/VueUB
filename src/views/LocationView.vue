@@ -8,11 +8,11 @@
         About : {{ About }}<br
       /></v-col>
       <v-col cols="2">
-        <!-- <v-btn color="warning" @click="editL(id)"> Edit </v-btn> -->
         <!-- Dialog  -->
         <v-row justify="center">
           <v-dialog v-model="dialogEdit" persistent>
-            <template v-slot:activator="{ props }">
+            <template v-slot:activator="{ props }"
+              ><v-btn color="error" @click="delL(id)"> ลบ </v-btn>
               <!-- <v-btn color="primary" v-bind="props"> Open Dialog </v-btn> -->
               <v-btn v-bind="props" color="warning" @click="editL()">
                 <v-icon>mdi-plus</v-icon>Edit
@@ -215,6 +215,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../DB";
 import { useUserStore } from "@/stores/user";
+import router from "../router";
 
 export default {
   name: "LocationView",
@@ -262,7 +263,15 @@ export default {
     async del(id) {
       console.log("no : " + id);
       //del
+
       await deleteDoc(doc(db, "Reserve", id));
+    },
+    async delL(id) {
+      console.log("no : " + id);
+      //del
+
+      router.push("/");
+      await deleteDoc(doc(db, "Location", id));
     },
     async dialogSave() {
       console.log("dialogSave");
