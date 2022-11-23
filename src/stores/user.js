@@ -24,6 +24,7 @@ import { defineStore } from "pinia";
 //   return { uid, name, email, loginUser };
 // });
 
+//ข้อมูลผู้ใช้เมื่อเข้าสู้ระบบ
 export const useUserStore = defineStore("user", {
   state: () => ({
     uid: "",

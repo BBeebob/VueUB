@@ -99,12 +99,14 @@ export default {
   mounted() {},
   methods: {
     async ok() {
+      //เมื่อกดส่งแบบฟอร์มล็อกอิน
       console.log("Ok");
 
       const { valid } = await this.$refs.form.validate();
 
       if (valid) {
         //ถ้าตรวจสอบฟอร์มผ่าน
+
         //ล็อกอิน
         signInWithEmailAndPassword(auth, this.email, this.pass)
           .then((userCredential) => {
@@ -124,6 +126,7 @@ export default {
       }
     },
     close() {
+      //ปิดหน้าล็อกอิน
       console.log("ปิด");
       router.push("/");
       //ไปหน้าโฮม

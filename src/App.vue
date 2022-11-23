@@ -52,11 +52,11 @@ export default {
   name: "App",
   setup() {
     const user = useUserStore();
-
+    // ตรวจสอบยูสล็อกอินหรือไม่
     onAuthStateChanged(auth, (u) => {
       if (u) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
+        // ถ้าล็อกอิน
+
         user.uid = u.uid;
         // ...
         console.log(user.uid);
@@ -64,6 +64,7 @@ export default {
         // router.push("/");
         // root.login();
       } else {
+        // ถ้าไม่ล็อกอิน
         // User is signed out
         // ...
         user.uid = "";
@@ -84,10 +85,11 @@ export default {
   }),
   methods: {
     login() {
+      //ไปหน้าล็อกอิน
       router.push("/login");
     },
     logout() {
-      //--
+      // ล็อกเอ้า
       console.log(this.uid);
       signOut(auth);
       console.log("logout");

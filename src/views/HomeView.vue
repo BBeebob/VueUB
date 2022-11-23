@@ -131,6 +131,7 @@ import { useUserStore } from "@/stores/user";
 export default {
   name: "HomeView",
   setup() {
+    //เรียกใช้ข้อมูลผู้ใช้
     const user = useUserStore();
     return { user };
   },
@@ -148,6 +149,7 @@ export default {
     };
   },
   async mounted() {
+    // เมื่อหน้าถูกเรียก ให้ดึงข้อมูลจากฐานข้อมูลแบบเรียลไทม์
     const q = query(collection(db, "Location"));
     // const unsubscribe =
     onSnapshot(q, (querySnapshot) => {
@@ -159,7 +161,7 @@ export default {
           subtitle: doc.data().About,
         });
       });
-      //จัดเรียง
+      //จัดเรียงตาม title
 
       this.items.sort((a, b) =>
         a.Name > b.title ? 1 : b.title > a.title ? -1 : 0
@@ -190,6 +192,7 @@ export default {
   computed: {},
   watch: {
     dialog(n) {
+      // ตรวจสอบเมื่อ dialog เปิด
       if (n) {
         this.dlgName = "";
         this.dlgPhoto = [];
@@ -199,6 +202,7 @@ export default {
   },
   methods: {
     async dialogSave() {
+      // เมื่อกดเซฟ dialog บันถึงสถานที่
       console.log("dialogSave");
       console.log(this.dlgPhoto);
 
@@ -217,6 +221,7 @@ export default {
       this.dialog = false;
     },
     dialogClose() {
+      // ปิด dialog
       console.log("dialogClose");
       this.dialog = false;
     },

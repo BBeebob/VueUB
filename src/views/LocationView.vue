@@ -248,12 +248,14 @@ export default {
   },
   methods: {
     editL() {
+      // แก้ไข Location เมื่อเปิด
       this.eName = this.Name;
       this.eAbout = this.About;
 
       this.dialogEdit = true;
     },
     async dialogEditSave() {
+      // แก้ไข Location เมื่อเซฟ
       await updateDoc(doc(db, "Location", this.id), {
         Name: this.eName,
         About: this.eAbout,
@@ -262,20 +264,20 @@ export default {
     },
     async del(id) {
       console.log("no : " + id);
-      //del
+      //del Reserve
 
       await deleteDoc(doc(db, "Reserve", id));
     },
     async delL(id) {
       console.log("no : " + id);
-      //del
+      //del Location
 
       router.push("/");
       await deleteDoc(doc(db, "Location", id));
     },
     async dialogSave() {
       console.log("dialogSave");
-
+      //เมื่อ เพิ่ม การจอง
       try {
         // const docRef =
         await addDoc(collection(db, "Reserve"), {
@@ -299,15 +301,18 @@ export default {
       this.dialog = false;
     },
     dialogClose() {
+      //ปิดการจอง
       console.log("dialogClose");
       this.dialog = false;
     },
     dialogEditClose() {
+      //ปิดแก้ไข Location
       console.log("dialogClose");
       this.dialogEdit = false;
     },
   },
   mounted() {
+    // เมื่อเปิดหน้า ทำการโหลด Location ของหน้า
     // const unsub =
     onSnapshot(doc(db, "Location", this.id), (doc) => {
       // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
@@ -318,6 +323,7 @@ export default {
     // console.log(unsub);
 
     //----------
+    // เมื่อเปิดหน้า ทำการโหลด Reserve ของหน้า ที่ ถูกยืนยันแล้ว
     const q = query(
       collection(db, "Reserve"),
       where("status", "==", true),

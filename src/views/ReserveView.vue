@@ -71,6 +71,7 @@ export default {
   },
   methods: {
     async yes(id, data) {
+      // ยืนยันการจอง
       console.log("yes : " + id);
       await updateDoc(doc(db, "Reserve", id), {
         status: true,
@@ -78,13 +79,14 @@ export default {
       router.push("/location/" + data.idL);
     },
     async no(id) {
+      //ยกเลิกการจอง
       console.log("no : " + id);
       //del
       await deleteDoc(doc(db, "Reserve", id));
     },
   },
   mounted() {
-    //
+    // เมื่อเปิดหน้า ดึงข้อมูล Reserve ที่ยังไม่ยืนยันมาแสดง
     const q = query(collection(db, "Reserve"), where("status", "==", false));
     // const unsubscribe =
     onSnapshot(q, (querySnapshot) => {
