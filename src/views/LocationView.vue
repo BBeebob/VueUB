@@ -1,9 +1,85 @@
 <template>
   <div class="LocationView">
     <h1>LocationView</h1>
-    id : {{ id }} <br />
-    Name : {{ Name }} <br />
-    About : {{ About }}<br />
+    <v-row>
+      <v-col cols="10"
+        >id : {{ id }} <br />
+        Name : {{ Name }} <br />
+        About : {{ About }}<br
+      /></v-col>
+      <v-col cols="2">
+        <!-- <v-btn color="warning" @click="editL(id)"> Edit </v-btn> -->
+        <!-- Dialog  -->
+        <v-row justify="center">
+          <v-dialog v-model="dialogEdit" persistent>
+            <template v-slot:activator="{ props }">
+              <!-- <v-btn color="primary" v-bind="props"> Open Dialog </v-btn> -->
+              <v-btn v-bind="props" color="warning" @click="editL()">
+                <v-icon>mdi-plus</v-icon>Edit
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">แก้ไขสถานที่</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        label="ชื่อสถานที่*"
+                        required
+                        clearable
+                        v-model="eName"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-file-input
+                        prepend-icon=""
+                        multiple
+                        accept="image/*"
+                        label="รูปสถานที่"
+                        v-model="ePhoto"
+                      ></v-file-input>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-textarea
+                        name="input-7-1"
+                        variant="filled"
+                        label="รายละเอียดสถานที่"
+                        auto-grow
+                        v-model="eAbout"
+                      ></v-textarea>
+                    </v-col>
+                    <v-col cols="12" sm="6"> </v-col>
+                  </v-row>
+                </v-container>
+                <small>*indicates required field</small>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue-darken-1"
+                  variant="text"
+                  @click="dialogEditClose"
+                >
+                  Close
+                </v-btn>
+                <v-btn
+                  color="blue-darken-1"
+                  variant="text"
+                  @click="dialogEditSave"
+                >
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+        <!--  -->
+        <!--  -->
+      </v-col>
+    </v-row>
 
     <!-- ---- -->
     <!-- ---List --- -->
@@ -133,6 +209,7 @@ import {
   doc,
   onSnapshot,
   query,
+  updateDoc,
   // updateDoc,
   where,
 } from "firebase/firestore";
@@ -148,10 +225,14 @@ export default {
   data() {
     return {
       dialog: false,
-
+      dialogEdit: false,
       id: this.$route.params.id,
       Name: "",
+      Photo: [],
       About: "",
+      eName: "",
+      ePhoto: [],
+      eAbout: "",
 
       items: [
         // { type: "subheader", title: "สถานที่" }
@@ -165,6 +246,19 @@ export default {
     };
   },
   methods: {
+    editL() {
+      this.eName = this.Name;
+      this.eAbout = this.About;
+
+      this.dialogEdit = true;
+    },
+    async dialogEditSave() {
+      await updateDoc(doc(db, "Location", this.id), {
+        Name: this.eName,
+        About: this.eAbout,
+      });
+      this.dialogEditClose();
+    },
     async del(id) {
       console.log("no : " + id);
       //del
@@ -198,6 +292,10 @@ export default {
     dialogClose() {
       console.log("dialogClose");
       this.dialog = false;
+    },
+    dialogEditClose() {
+      console.log("dialogClose");
+      this.dialogEdit = false;
     },
   },
   mounted() {
