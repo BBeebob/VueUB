@@ -5,6 +5,41 @@
     Name : {{ Name }} <br />
     About : {{ About }}<br />
 
+    <!-- ---- -->
+    <!-- ---List --- -->
+    <v-list lines="three">
+      <v-list-subheader style="font-size: x-large; color: black"
+        >จองแล้ว</v-list-subheader
+      >
+
+      <v-list-item
+        v-for="(item, i) in items"
+        :key="i"
+        :value="item"
+        active-color="primary"
+        prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
+      >
+        <v-list-item-title>{{ item.by }}</v-list-item-title>
+
+        <v-list-item-subtitle>
+          Start :{{ item.StartDate }} - {{ item.StartTime }}<br />
+          End :{{ item.EndDate }} - {{ item.EndTime }}<br />
+
+          About :{{ item.About }}<br />
+          by :{{ item.by }}<br />
+        </v-list-item-subtitle>
+        <template v-slot:append>
+          <v-btn
+            color="red"
+            icon="mdi-information"
+            variant="text"
+            @click="del(item.id)"
+          ></v-btn>
+        </template>
+      </v-list-item>
+    </v-list>
+    <!-- list -->
+
     <!-- Dialog  -->
     <v-row justify="center">
       <v-dialog v-model="dialog" persistent>
@@ -24,7 +59,10 @@
           <v-card-title>
             <span class="text-h5">จองสถานที่</span>
           </v-card-title>
-          <v-card-subtitle> Name : {{ Name }} </v-card-subtitle>
+          <v-card-subtitle>
+            Name : {{ Name }}<br />
+            โดย : {{ user.uid }}
+          </v-card-subtitle>
           <v-card-text>
             <v-container>
               <v-row>
@@ -88,13 +126,24 @@
 </template>
 
 <script>
-import { addDoc, collection, doc, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  // updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../DB";
+import { useUserStore } from "@/stores/user";
+
 export default {
   name: "LocationView",
   setup() {
-    // const user = useUserStore();
-    // return { user };
+    const user = useUserStore();
+    return { user };
   },
   data() {
     return {
@@ -116,25 +165,30 @@ export default {
     };
   },
   methods: {
+    async del(id) {
+      console.log("no : " + id);
+      //del
+      await deleteDoc(doc(db, "Reserve", id));
+    },
     async dialogSave() {
       console.log("dialogSave");
-      console.log(this.dlgStartDate);
-      console.log(this.dlgStartTime);
 
       try {
-        const docRef = await addDoc(
-          collection(db, "Location", this.id, "Reserve"),
-          {
-            StartDate: this.dlgStartDate,
-            StartTime: this.dlgStartTime,
-            EndDate: this.dlgEndDate,
-            EndTime: this.dlgEndTime,
+        // const docRef =
+        await addDoc(collection(db, "Reserve"), {
+          idL: this.id,
+          nameL: this.Name,
+          StartDate: this.dlgStartDate,
+          StartTime: this.dlgStartTime,
+          EndDate: this.dlgEndDate,
+          EndTime: this.dlgEndTime,
 
-            About: this.dlgAbout,
-          }
-        );
+          About: this.dlgAbout,
+          by: this.user.uid,
+          status: false,
+        });
 
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -155,6 +209,25 @@ export default {
       this.About = doc.data().About;
     });
     // console.log(unsub);
+
+    //----------
+    const q = query(
+      collection(db, "Reserve"),
+      where("status", "==", true),
+      where("idL", "==", this.id)
+    );
+    // const unsubscribe =
+    onSnapshot(q, (querySnapshot) => {
+      this.items = [];
+      querySnapshot.forEach((doc) => {
+        this.items.push({
+          id: doc.id,
+          title: doc.data().by,
+          ...doc.data(),
+        });
+      });
+      console.log(this.items);
+    });
   },
 };
 </script>

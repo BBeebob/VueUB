@@ -1,34 +1,14 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark clipped-left>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>ระบบจองสถานที่ UBRU</v-toolbar-title>
-
-      <v-btn variant="outlined" v-if="user.loginUser" @click="logout()">
-        Logout
-      </v-btn>
-      <v-btn variant="outlined" v-if="!user.loginUser" @click="login()">
-        Login
-      </v-btn>
-    </v-app-bar>
-    <v-navigation-drawer app v-model="drawer" absolute clipped>
-      <v-list :lines="false" density="compact" nav>
-        <v-list-item
-          v-for="(item, i) in ndItems"
-          :key="i"
-          :value="item"
-          active-color="primary"
-        >
-          <template v-slot:prepend>
-            <v-icon :icon="item.icon"></v-icon>
-          </template>
-
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-main>
       <v-container fluid>
+        <v-text-field
+          label="ค้นหาสถานที่"
+          density="compact"
+          variant="solo"
+          append-inner-icon="mdi-magnify"
+          single-line
+        ></v-text-field>
         <!-- list -->
         <!-- <v-list :items="items" item-props lines="three" active-color="primary">
           <template v-slot:subtitle="{ subtitle }">
@@ -47,7 +27,9 @@
             :key="i"
             :value="item"
             active-color="primary"
+            prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
             :to="'/location/' + item.id"
+            style="border-bottom: solid 1px #33333333"
           >
             <v-list-item-title>{{ item.title }}</v-list-item-title>
 
@@ -67,7 +49,7 @@
                 v-bind="props"
                 color="primary"
                 size="large"
-                style="position: absolute; right: 20px; bottom: 20px"
+                style="position: fixed; right: 20px; bottom: 20px"
                 icon
               >
                 <v-icon>mdi-plus</v-icon>
@@ -134,7 +116,7 @@
 </template>
 
 <script>
-import { auth, db } from "../DB";
+import { db } from "../DB";
 import {
   collection,
   addDoc,
@@ -144,9 +126,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
-import { signOut } from "firebase/auth";
 import { useUserStore } from "@/stores/user";
-import router from "../router";
 
 export default {
   name: "HomeView",
@@ -156,17 +136,11 @@ export default {
   },
   data() {
     return {
-      drawer: null,
       dialog: false,
       dlgName: "",
       dlgPhoto: [],
       dlgAbout: "5555",
       selectedNdItem: 0,
-      ndItems: [
-        { title: "หน้าแรก", icon: "mdi-home" },
-        { title: "รายการจอง", icon: "mdi-book" },
-        { title: "ติดต่อ", icon: "mdi-comment" },
-      ],
 
       items: [
         // { type: "subheader", title: "สถานที่" }
@@ -240,15 +214,6 @@ export default {
     dialogClose() {
       console.log("dialogClose");
       this.dialog = false;
-    },
-    login() {
-      router.push("/login");
-    },
-    logout() {
-      //--
-      console.log(this.uid);
-      signOut(auth);
-      console.log("logout");
     },
   },
 };

@@ -34,7 +34,7 @@
             <v-text-field
               v-model="pass"
               clearable
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-icon="show1 ? 'mdi-eye-off' : 'mdi-eye'"
               :rules="passRules"
               :counter="20"
               :type="show1 ? 'text' : 'password'"
