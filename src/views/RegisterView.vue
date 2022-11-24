@@ -3,14 +3,13 @@
     <v-card
       v-if="!user.loginUser"
       class="mx-auto"
-      style="position: absolute; left: 30px; right: 30px; bottom: 200px"
-      max-width="344"
+      style="position: relative; left: 30px; right: 30px; top: 100px"
+      max-width="450"
       variant="outlined"
     >
       <v-card-item>
         <div>
-          <div class="text-h2 mb-1">Register page</div>
-          <div class="text-caption"></div>
+          <div class="text-h4 mb-10 mt-5">ลงทะเบียน</div>
 
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field
