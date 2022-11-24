@@ -3,7 +3,12 @@
     <v-app-bar app color="primary" dark clipped-left>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>ระบบจองสถานที่ UBRU</v-toolbar-title>
+      <!-- ชื่อ -->
+      {{ user.name }}
 
+      <v-btn variant="outlined" v-if="!user.loginUser" @click="register()">
+        Register
+      </v-btn>
       <v-btn variant="outlined" v-if="user.loginUser" @click="logout()">
         Logout
       </v-btn>
@@ -37,7 +42,7 @@
 </template>
 
 <script>
-import { auth } from "./DB";
+import { auth, db } from "./DB";
 import {
   // getAuth,
   // signInWithEmailAndPassword,
@@ -47,6 +52,7 @@ import { signOut } from "firebase/auth";
 
 import { useUserStore } from "@/stores/user";
 import router from "@/router";
+import { doc, onSnapshot } from "firebase/firestore";
 
 export default {
   name: "App",
@@ -59,8 +65,21 @@ export default {
 
         user.uid = u.uid;
         user.email = u.email;
+        user.pic = u.photoURL;
+
+        // const unsub =
+        onSnapshot(doc(db, "Profile", user.uid), (doc) => {
+          // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+          // console.log(source, " data: ", doc.data());
+          if (doc.data()) {
+            user.name = doc.data().name;
+            user.faculty = doc.data().faculty;
+            user.phonenumber = doc.data().phonenumber;
+          }
+        });
+
         // ...
-        console.log(u);
+        console.log(user);
         console.log("ล็อกอินแล้วจ้า");
         // router.push("/");
         // root.login();
@@ -70,6 +89,10 @@ export default {
         // ...
         user.uid = "";
         user.email = "";
+        user.pic = "";
+        user.name = "";
+        user.faculty = "";
+        user.phonenumber = "";
 
         console.log("no user");
         // root.logout();
@@ -105,6 +128,10 @@ export default {
     login() {
       //ไปหน้าล็อกอิน
       router.push("/login");
+    },
+    register() {
+      //ไปหน้าล็อกอิน
+      router.push("/register");
     },
     logout() {
       // ล็อกเอ้า
