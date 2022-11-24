@@ -4,7 +4,7 @@
     รูป
     <v-row class="รูป">
       <v-col v-for="n in urlImgs" :key="n" class="d-flex child-flex" cols="4">
-        <v-img :src="n" aspect-ratio="1" cover class="bg-grey-lighten-2">
+        <v-img :src="n.url" aspect-ratio="1" cover class="bg-grey-lighten-2">
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular
@@ -20,8 +20,10 @@
       <v-col cols="10"
         >id : {{ id }} <br />
         Name : {{ Name }} <br />
-        About : {{ About }}<br
-      /></v-col>
+        About : {{ About }}<br />
+        TimeUpdate : {{ Date(TimeUpdate) }}<br />
+        TimeCreate : {{ Date(TimeCreate) }}<br />
+      </v-col>
       <v-col cols="2">
         <!-- Dialog  -->
         <v-row justify="center">
@@ -48,13 +50,45 @@
                         v-model="eName"
                       ></v-text-field>
                     </v-col>
+                    <!-- แก้ไขรูป -->
+                    <v-col cols="12">
+                      <!-- --- -->
+                      <v-list>
+                        <v-list-subheader
+                          style="font-size: x-large; color: black"
+                          >รูปภาพเดิม</v-list-subheader
+                        >
+
+                        <v-list-item
+                          v-for="item in urlImgs"
+                          :key="item.name"
+                          :value="item.name"
+                          active-color="primary"
+                          :prepend-avatar="item.url"
+                        >
+                          <v-list-item-title>{{ item.name }}</v-list-item-title>
+
+                          <template v-slot:append>
+                            <v-switch
+                              v-model="eDelPhoto"
+                              color="error"
+                              label="ลบ"
+                              :value="item.name"
+                              hide-details
+                            ></v-switch>
+                          </template>
+                        </v-list-item>
+                      </v-list>
+                      <!-- list -->
+                    </v-col>
+                    <!-- --------- -->
                     <v-col cols="12">
                       <v-file-input
                         prepend-icon=""
                         multiple
                         accept="image/*"
-                        label="รูปสถานที่"
-                        v-model="ePhoto"
+                        label="เพิ่มรูปสถานที่"
+                        v-model="eNewPhoto"
                       ></v-file-input>
                     </v-col>
                     <v-col cols="12" sm="6">
@@ -231,7 +265,13 @@ import {
 import { db } from "../DB";
 import { useUserStore } from "@/stores/user";
 import router from "../router";
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage();
@@ -258,6 +298,7 @@ export default {
 
       eName: "", // ชื่อโลเคชั่น หน้าแก้ไข
       ePhoto: [], // ชื่อรูปทั้งหมดโลเคชั่น  หน้าแก้ไข
+      eDelPhoto: [],
       eNewPhoto: [], //รูปใหม่ หน้าแก้ไข
       eAbout: "", // หมายเหตุ  หน้าแก้ไข
       eTimeUpdate: 0,
@@ -286,12 +327,51 @@ export default {
     },
     async dialogEditSave() {
       // แก้ไข Location เมื่อเซฟ
+
+      //ลบรูปเก่า
+      console.log("ลบรูปเก่า");
+
+      this.eDelPhoto.forEach(async (name) => {
+        console.log("ลบรูปชื่อ :" + name);
+        const sgImgRef = ref(storage, "images/" + this.id + "/" + name);
+
+        // Delete the file
+        deleteObject(sgImgRef).then(() => {
+          // File deleted successfully
+          console.log("ลบรูปชื่อ :" + name + " ok");
+        });
+
+        const delIndex = this.ePhoto.indexOf(name);
+        if (delIndex > -1) {
+          // only splice array when item is found
+          this.ePhoto.splice(delIndex, 1); // 2nd parameter means remove one item only
+        }
+        console.log("this.ePhoto :", this.ePhoto);
+      });
+
+      //เพิ่มลูปใหม่
+      // ชื่อของรูปภาพทั้งหมด
+      const sgIdRef = ref(storage, "images/" + this.id);
+      const eNewPhotoName = [];
+
+      this.eNewPhoto.forEach(async (file) => {
+        eNewPhotoName.push(file.name);
+
+        const sgFileRef = ref(sgIdRef, file.name);
+        await uploadBytes(sgFileRef, file).then((snapshot) => {
+          console.log("Uploaded : ", snapshot);
+        });
+      });
+
       await updateDoc(doc(db, "Location", this.id), {
         Name: this.eName,
+        Photo: [...this.ePhoto, ...eNewPhotoName],
         About: this.eAbout,
+        TimeUpdate: Date.now(),
       });
       this.dialogEditClose();
     },
+
     async del(id) {
       console.log("no : " + id);
       //del Reserve
@@ -348,25 +428,29 @@ export default {
     onSnapshot(doc(db, "Location", this.id), (doc) => {
       // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
       // console.log(source, " data: ", doc.data());
-      this.Name = doc.data().Name;
-      this.Photo = doc.data().Photo;
-      this.About = doc.data().About;
+      if (doc.data()) {
+        console.log(1);
+        this.Name = doc.data().Name;
+        this.Photo = doc.data().Photo;
+        this.About = doc.data().About;
+        this.TimeCreate = doc.data().TimeCreate;
+        this.TimeUpdate = doc.data().TimeUpdate;
 
-      this.pathImgs = [];
-      this.Photo.forEach((name) => {
-        const sgImgRef = ref(
-          storage,
-          "images/" + this.$route.params.id + "/" + name
-        );
-        console.log(sgImgRef);
-        // Get the download URL
+        this.urlImgs = [];
+        this.Photo.forEach((name) => {
+          const sgImgRef = ref(storage, "images/" + this.id + "/" + name);
+          console.log(sgImgRef);
+          // Get the download URL
 
-        getDownloadURL(sgImgRef).then((url) => {
-          // Insert url into an <img> tag to "download"
-          this.urlImgs.push(url);
+          getDownloadURL(sgImgRef).then((url) => {
+            // Insert url into an <img> tag to "download"
+            this.urlImgs.push({ url, name, del: false });
+          });
         });
-      });
-      console.log(this.urlImgs);
+        console.log(doc.data());
+      } else {
+        router.push("/");
+      }
     });
     // console.log(unsub);
 
@@ -391,7 +475,7 @@ export default {
       this.items.sort((a, b) =>
         a.Name > b.title ? 1 : b.title > a.title ? -1 : 0
       );
-      console.log(this.items);
+      // console.log(this.items);
     });
   },
 };
