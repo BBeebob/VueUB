@@ -128,6 +128,14 @@ import {
 
 import { useUserStore } from "@/stores/user";
 
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
+// Get a reference to the storage service, which is used to create references in your storage bucket
+const storage = getStorage();
+
+// Create a storage reference from our storage service
+const sgImgsRef = ref(storage, "images");
+
 export default {
   name: "HomeView",
   setup() {
@@ -206,14 +214,30 @@ export default {
       console.log("dialogSave");
       console.log(this.dlgPhoto);
 
+      // ชื่อของรูปภาพทั้งหมด
+      const photoName = [];
+      this.dlgPhoto.forEach((file) => {
+        photoName.push(file.name);
+      });
       try {
         const docRef = await addDoc(collection(db, "Location"), {
           Name: this.dlgName,
-          // Photo: this.dlgPhoto,
+          Photo: photoName,
           About: this.dlgAbout,
         });
 
-        console.log("Document written with ID: ", docRef.id);
+        console.log(docRef.id);
+        // ที่อยู่รูปภาพ
+        const sgIdRef = ref(sgImgsRef, docRef.id);
+        console.log(sgIdRef);
+        // อัพโหลดรูปทั้งหมด
+        this.dlgPhoto.forEach((file) => {
+          // 'file' comes from the Blob or File API
+          const sgFileRef = ref(sgIdRef, file.name);
+          uploadBytes(sgFileRef, file).then((snapshot) => {
+            console.log("Uploaded : ", snapshot);
+          });
+        });
       } catch (e) {
         console.error("Error adding document: ", e);
       }

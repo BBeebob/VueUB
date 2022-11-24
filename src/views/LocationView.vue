@@ -1,6 +1,21 @@
 <template>
   <div class="LocationView">
     <h1>LocationView</h1>
+    รูป
+    <v-row class="รูป">
+      <v-col v-for="n in pathImgs" :key="n" class="d-flex child-flex" cols="4">
+        <v-img :src="n" aspect-ratio="1" cover class="bg-grey-lighten-2">
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular
+                indeterminate
+                color="grey-lighten-5"
+              ></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="10"
         >id : {{ id }} <br />
@@ -216,7 +231,12 @@ import {
 import { db } from "../DB";
 import { useUserStore } from "@/stores/user";
 import router from "../router";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
+// Get a reference to the storage service, which is used to create references in your storage bucket
+const storage = getStorage();
+
+// Create a storage reference from our storage service
 export default {
   name: "LocationView",
   setup() {
@@ -225,31 +245,37 @@ export default {
   },
   data() {
     return {
-      dialog: false,
-      dialogEdit: false,
-      id: this.$route.params.id,
-      Name: "",
-      Photo: [],
-      About: "",
-      eName: "",
-      ePhoto: [],
-      eAbout: "",
+      dialog: false, //เพิ่มการจอง
+      dialogEdit: false, //แก้ไขโลเคชั่น
+      id: this.$route.params.id, // ไอดี โลเคชั่นจาก url
+      urlImgs: [], //url ims ของโลเคชั่น
+
+      Name: "", //ชื่อ โลเคชั่น
+      Photo: [], // ชื่อรูปทั้งหมดโลเคชั่น
+      About: "", // หมายเหตุ
+      eName: "", // ชื่อโลเคชั่น หน้าแก้ไข
+      ePhoto: [], // ชื่อรูปทั้งหมดโลเคชั่น  หน้าแก้ไข
+      eNewPhoto: [], //รูปใหม่ หน้าแก้ไข
+      eAbout: "", // หมายเหตุ  หน้าแก้ไข
 
       items: [
-        // { type: "subheader", title: "สถานที่" }
+        // รายการการจอง
       ],
-      dlgAbout: "5555",
+      dlgAbout: "5555", //เพิ่มการจอง หมายเหตุ
 
-      dlgStartDate: "",
-      dlgStartTime: "",
-      dlgEndDate: "",
-      dlgEndTime: "",
+      dlgStartDate: "", //เพิ่มการจอง
+      dlgStartTime: "", //เพิ่มการจอง
+      dlgEndDate: "", //เพิ่มการจอง
+      dlgEndTime: "", //เพิ่มการจอง
+      dlgTimeCreate: "", //เพิ่มการจอง วันที่สร้าง
     };
   },
   methods: {
     editL() {
       // แก้ไข Location เมื่อเปิด
       this.eName = this.Name;
+      this.ePhoto = this.Photo;
+      this.eNewPhoto = [];
       this.eAbout = this.About;
 
       this.dialogEdit = true;
@@ -313,12 +339,30 @@ export default {
   },
   mounted() {
     // เมื่อเปิดหน้า ทำการโหลด Location ของหน้า
+
     // const unsub =
     onSnapshot(doc(db, "Location", this.id), (doc) => {
       // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
       // console.log(source, " data: ", doc.data());
       this.Name = doc.data().Name;
+      this.Photo = doc.data().Photo;
       this.About = doc.data().About;
+
+      this.pathImgs = [];
+      this.Photo.forEach((name) => {
+        const sgImgRef = ref(
+          storage,
+          "images/" + this.$route.params.id + "/" + name
+        );
+        console.log(sgImgRef);
+        // Get the download URL
+
+        getDownloadURL(sgImgRef).then((url) => {
+          // Insert url into an <img> tag to "download"
+          this.urlImgs.push(url);
+        });
+      });
+      console.log(this.urlImgs);
     });
     // console.log(unsub);
 
