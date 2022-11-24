@@ -18,7 +18,9 @@
 
         <!-- --- -->
         <v-list lines="three">
-          <v-list-subheader style="font-size: x-large; color: black"
+          <v-list-subheader
+            style="font-size: x-large; color: black"
+            class="mx-auto mb-5"
             >สถานที่</v-list-subheader
           >
 

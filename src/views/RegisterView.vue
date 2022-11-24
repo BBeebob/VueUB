@@ -88,6 +88,7 @@
           color="success"
           variant="outlined"
           elevation="3"
+          width="110px"
           class="mx-auto mb-5"
           @click="ok"
         >
@@ -98,6 +99,7 @@
           color="error"
           variant="outlined"
           elevation="3"
+          width="110px"
           class="mx-auto mb-5"
           @click="close"
         >

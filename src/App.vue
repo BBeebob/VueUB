@@ -3,7 +3,12 @@
     <v-app-bar app color="primary" dark clipped-left>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>ระบบจองสถานที่ UBRU</v-toolbar-title>
-      <v-avatar color="info" @click="profile()" v-if="user.loginUser">
+      <v-avatar
+        class="mr-4"
+        color="info"
+        @click="profile()"
+        v-if="user.loginUser"
+      >
         <v-icon icon="mdi-account-circle"></v-icon>
       </v-avatar>
       <v-btn

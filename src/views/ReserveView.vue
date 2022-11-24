@@ -1,10 +1,9 @@
 <template>
   <div class="Reserve">
-    <h1 class="pa-md-4 mx-auto">ลิสต์ทั้งหมด</h1>
+    <h1 class="pa-md-4 mx-lg-auto">ลิสต์ทั้งหมด</h1>
 
     <!-- --- -->
-    <div v-if="!user.adminUser">ต้องเป็นแอดมิน</div>
-    <v-list lines="three" v-if="user.adminUser">
+    <v-list lines="three">
       <v-list-subheader
         style="font-size: x-large; color: black"
       ></v-list-subheader>
@@ -56,12 +55,11 @@ import {
 } from "firebase/firestore";
 import { db } from "../DB";
 import router from "../router";
-import { useUserStore } from "../stores/user";
 
 export default {
   setup() {
-    const user = useUserStore();
-    return { user };
+    //     const user = useUserStore();
+    // return { user };
   },
   name: "LocationView",
   data() {
@@ -73,22 +71,18 @@ export default {
   },
   methods: {
     async yes(id, data) {
-      if (confirm("ยืนยัน Reserve id:" + id + " ?")) {
-        // ยืนยันการจอง
-        console.log("yes : " + id);
-        await updateDoc(doc(db, "Reserve", id), {
-          status: true,
-        });
-        router.push("/location/" + data.idL);
-      }
+      // ยืนยันการจอง
+      console.log("yes : " + id);
+      await updateDoc(doc(db, "Reserve", id), {
+        status: true,
+      });
+      router.push("/location/" + data.idL);
     },
     async no(id) {
       //ยกเลิกการจอง
-      if (confirm("ยืนยันการลบ Reserve id:" + id + " ?")) {
-        //del
-        await deleteDoc(doc(db, "Reserve", id));
-        console.log("no : " + id);
-      }
+      console.log("no : " + id);
+      //del
+      await deleteDoc(doc(db, "Reserve", id));
     },
   },
   mounted() {

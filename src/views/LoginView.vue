@@ -45,9 +45,7 @@
               hint="At least 20 characters"
               @click:append="show1 = !show1"
             ></v-text-field>
-            <v-btn color="warning" class="mr-4" @click="repass">
-              re-password
-            </v-btn>
+            <v-btn class="mr-5" @click="repass"> ลืมรหัสผ่าน </v-btn>
             <!-- <v-checkbox v-model="checkbox" label="จำรหัส" required></v-checkbox> -->
           </v-form>
         </div>
@@ -58,6 +56,7 @@
           color="success"
           variant="outlined"
           elevation="3"
+          width="110px"
           class="mx-auto mb-5"
           @click="ok"
         >
@@ -68,6 +67,7 @@
           color="error"
           variant="outlined"
           elevation="3"
+          width="110px"
           class="mx-auto mb-5"
           @click="close"
         >
