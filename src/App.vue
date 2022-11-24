@@ -8,8 +8,9 @@
         color="info"
         @click="profile()"
         v-if="user.loginUser"
+        :image="user.pic"
       >
-        <v-icon icon="mdi-account-circle"></v-icon>
+        <!-- <v-icon icon="mdi-account-circle"></v-icon> -->
       </v-avatar>
       <v-btn
         class="mr-3"

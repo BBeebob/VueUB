@@ -29,7 +29,7 @@
             :key="i"
             :value="item"
             active-color="primary"
-            prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
+            :prepend-avatar="item.pic"
             :to="'/location/' + item.id"
             style="border-bottom: solid 1px #33333333"
           >
@@ -130,7 +130,7 @@ import {
 
 import { useUserStore } from "@/stores/user";
 
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage();
@@ -166,10 +166,17 @@ export default {
     onSnapshot(q, (querySnapshot) => {
       this.items = [];
       querySnapshot.forEach((doc) => {
-        this.items.push({
-          id: doc.id,
-          title: doc.data().Name,
-          subtitle: doc.data().About,
+        const n = doc.data().Photo[0];
+        const sgImgRef = ref(storage, "images/" + doc.id + "/" + n);
+        getDownloadURL(sgImgRef).then((url) => {
+          // Insert url into an <img> tag to "download"
+          this.items.push({
+            id: doc.id,
+            title: doc.data().Name,
+            subtitle: doc.data().About,
+
+            pic: url,
+          });
         });
       });
       //จัดเรียงตาม title
