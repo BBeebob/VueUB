@@ -329,7 +329,6 @@ export default {
       // แก้ไข Location เมื่อเซฟ
 
       //ลบรูปเก่า
-      console.log("ลบรูปเก่า");
 
       this.eDelPhoto.forEach(async (name) => {
         console.log("ลบรูปชื่อ :" + name);
@@ -351,6 +350,7 @@ export default {
 
       //เพิ่มลูปใหม่
       // ชื่อของรูปภาพทั้งหมด
+
       const sgIdRef = ref(storage, "images/" + this.id);
       const eNewPhotoName = [];
 
@@ -358,7 +358,7 @@ export default {
         eNewPhotoName.push(file.name);
 
         const sgFileRef = ref(sgIdRef, file.name);
-        await uploadBytes(sgFileRef, file).then((snapshot) => {
+        uploadBytes(sgFileRef, file).then((snapshot) => {
           console.log("Uploaded : ", snapshot);
         });
       });
