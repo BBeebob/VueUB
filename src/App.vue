@@ -3,9 +3,10 @@
     <v-app-bar app color="primary" dark clipped-left>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>ระบบจองสถานที่ UBRU</v-toolbar-title>
-      <!-- ชื่อ -->
-      {{ user.name }}
 
+      <v-avatar color="info" @click="profile()" v-if="user.loginUser">
+        <v-icon icon="mdi-account-circle"></v-icon>
+      </v-avatar>
       <v-btn variant="outlined" v-if="!user.loginUser" @click="register()">
         Register
       </v-btn>
@@ -125,6 +126,10 @@ export default {
     },
   },
   methods: {
+    profile() {
+      //ไปหน้าล็อกอิน
+      router.push("/profile");
+    },
     login() {
       //ไปหน้าล็อกอิน
       router.push("/login");

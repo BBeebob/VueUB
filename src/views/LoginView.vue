@@ -43,7 +43,9 @@
               hint="At least 20 characters"
               @click:append="show1 = !show1"
             ></v-text-field>
-
+            <v-btn color="warning" class="mr-4" @click="repass">
+              re-password
+            </v-btn>
             <!-- <v-checkbox v-model="checkbox" label="จำรหัส" required></v-checkbox> -->
           </v-form>
         </div>
@@ -62,6 +64,7 @@
 import router from "../router";
 import { auth } from "../DB";
 import {
+  sendPasswordResetEmail,
   // getAuth,
   signInWithEmailAndPassword,
   // onAuthStateChanged,
@@ -130,6 +133,22 @@ export default {
       console.log("ปิด");
       router.push("/");
       //ไปหน้าโฮม
+    },
+    repass() {
+      // รีรหัส
+      let emailrepass = prompt("โปรดใส่อีเมลสำหรับรีพาสเวิส");
+      if (emailrepass) {
+        sendPasswordResetEmail(auth, emailrepass)
+          .then(() => {
+            // Password reset email sent!
+
+            alert("โปรดดรวจดูที่ อีเมลของท่าน เมลอาจอยู่ในถังขยะ");
+          })
+          .catch((error) => {
+            alert(error.message);
+            // ..
+          });
+      }
     },
   },
 };
