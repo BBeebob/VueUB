@@ -9,7 +9,9 @@
     >
       <v-card-item>
         <div>
-          <div class="text-h4 mb-10 mt-5">ลงทะเบียน</div>
+          <div class="text-h4 mb-10 mt-5 d-flex justify-space-around">
+            ลงทะเบียน
+          </div>
 
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field
@@ -82,9 +84,25 @@
       </v-card-item>
 
       <v-card-actions>
-        <v-btn color="success" class="mr-4" @click="ok"> OK </v-btn>
+        <v-btn
+          color="success"
+          variant="outlined"
+          elevation="3"
+          class="mx-auto mb-5"
+          @click="ok"
+        >
+          OK
+        </v-btn>
 
-        <v-btn color="error" class="mr-4" @click="close"> Close </v-btn>
+        <v-btn
+          color="error"
+          variant="outlined"
+          elevation="3"
+          class="mx-auto mb-5"
+          @click="close"
+        >
+          Close
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>

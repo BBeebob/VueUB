@@ -6,7 +6,12 @@
       <!-- ชื่อ -->
       {{ user.name }}
 
-      <v-btn variant="outlined" v-if="!user.loginUser" @click="register()">
+      <v-btn
+        class="mr-3"
+        variant="outlined"
+        v-if="!user.loginUser"
+        @click="register()"
+      >
         Register
       </v-btn>
       <v-btn variant="outlined" v-if="user.loginUser" @click="logout()">
