@@ -69,6 +69,8 @@ export default {
         // User is signed out
         // ...
         user.uid = "";
+        user.email = u.email;
+
         console.log("no user");
         // root.logout();
       }
