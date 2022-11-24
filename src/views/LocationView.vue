@@ -1,7 +1,6 @@
 <template>
   <div class="LocationView">
     <h1>LocationView</h1>
-    รูป
     <v-row class="รูป">
       <v-col v-for="n in urlImgs" :key="n" class="d-flex child-flex" cols="4">
         <v-img :src="n.url" aspect-ratio="1" cover class="bg-grey-lighten-2">
@@ -103,7 +102,7 @@
                     <v-col cols="12" sm="6"> </v-col>
                   </v-row>
                 </v-container>
-                <small>*indicates required field</small>
+                <small></small>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -233,7 +232,7 @@
                 <v-col cols="12" sm="6"> </v-col>
               </v-row>
             </v-container>
-            <small>*indicates required field</small>
+            <small></small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
