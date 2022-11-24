@@ -28,8 +28,11 @@ import { defineStore } from "pinia";
 export const useUserStore = defineStore("user", {
   state: () => ({
     uid: "",
-    name: "5555",
+    name: "",
     email: "",
+    pic: "",
+    faculty: "",
+    phonenumber: "",
   }),
   getters: {
     loginUser: (state) => state.uid !== "",

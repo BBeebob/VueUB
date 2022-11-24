@@ -37,7 +37,7 @@
             ></v-text-field>
 
             <v-text-field
-              v-model="pass"
+              v-model="passconfirm"
               clearable
               :append-icon="show1 ? 'mdi-eye-off' : 'mdi-eye'"
               :rules="passconfirmRules"
@@ -93,14 +93,11 @@
 
 <script>
 import router from "../router";
-import { auth } from "../DB";
-import {
-  // getAuth,
-  signInWithEmailAndPassword,
-  // onAuthStateChanged,
-} from "firebase/auth";
+import { auth, db } from "../DB";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { useUserStore } from "@/stores/user";
+import { doc, setDoc } from "firebase/firestore";
 // import { mapActions } from 'pinia'
 
 // const root = useRootStore();
@@ -148,28 +145,43 @@ export default {
     async ok() {
       //เมื่อกดส่งแบบฟอร์มล็อกอิน
       console.log("Ok");
+      if (this.pass !== this.passconfirm) {
+        alert("passconfirm ไม่ตรง ");
+        this.passconfirm = "";
+      }
+      {
+        const { valid } = await this.$refs.form.validate();
 
-      const { valid } = await this.$refs.form.validate();
+        if (valid) {
+          //ถ้าตรวจสอบฟอร์มผ่าน
 
-      if (valid) {
-        //ถ้าตรวจสอบฟอร์มผ่าน
+          //ล็อกอิน
+          createUserWithEmailAndPassword(auth, this.email, this.pass)
+            .then(async (userCredential) => {
+              // Signed in
+              const user = userCredential.user;
+              console.log(user);
+              // ... สร้างโปรไฟล์
+              await setDoc(doc(db, "Profile", user.uid), {
+                name: this.name,
+                faculty: this.faculty,
+                email: this.email,
+                phonenumber: this.phonenumber,
 
-        //ล็อกอิน
-        signInWithEmailAndPassword(auth, this.email, this.pass)
-          .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log(user);
-            // ...
-            //ไปหน้าโฮม
-            router.push("/");
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-            alert("ชื่อ หรือ รหัสผ่านไม่ถูกต้อง");
-          });
+                TimeCreate: Date.now(),
+                TimeUpdate: Date.now(),
+              });
+
+              //ไปหน้าโฮม
+              router.push("/");
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              console.log(errorCode, errorMessage);
+              alert(errorMessage);
+            });
+        }
       }
     },
     close() {
