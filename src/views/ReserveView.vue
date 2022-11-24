@@ -1,12 +1,12 @@
 <template>
   <div class="Reserve">
-    <h1>Reserve</h1>
+    <h1 class="pa-md-4 mx-auto">ลิสต์ทั้งหมด</h1>
 
     <!-- --- -->
     <v-list lines="three">
-      <v-list-subheader style="font-size: x-large; color: black"
-        >สถานที่</v-list-subheader
-      >
+      <v-list-subheader
+        style="font-size: x-large; color: black"
+      ></v-list-subheader>
 
       <v-list-item
         v-for="(item, i) in items"

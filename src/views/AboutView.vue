@@ -1,6 +1,8 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1 style="position: absolute; left: 800px; bottom: 900px">
+      ข้อมูลติดต่อเจ้าหน้าที่
+    </h1>
   </div>
 </template>
 

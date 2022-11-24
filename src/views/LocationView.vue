@@ -100,7 +100,7 @@
     <!-- ---List --- -->
     <v-list lines="three">
       <v-list-subheader style="font-size: x-large; color: black"
-        >จองแล้ว</v-list-subheader
+        >จองโดย</v-list-subheader
       >
 
       <v-list-item
