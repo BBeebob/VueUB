@@ -372,17 +372,24 @@ export default {
     },
 
     async del(id) {
-      console.log("no : " + id);
-      //del Reserve
+      if (confirm("ยืนยันการลบ Reserve id:" + id + " ?")) {
+        //del Reserve
 
-      await deleteDoc(doc(db, "Reserve", id));
+        await deleteDoc(doc(db, "Reserve", id));
+        console.log("del : " + id);
+      }
     },
     async delL(id) {
-      console.log("no : " + id);
-      //del Location
-
-      router.push("/");
-      await deleteDoc(doc(db, "Location", id));
+      if (confirm("ยืนยันการลบ Location id:" + id + " ?")) {
+        // Save it!
+        //del Location
+        await deleteDoc(doc(db, "Location", id));
+        router.push("/");
+        console.log("del : " + id);
+      } else {
+        // Do nothing!
+        console.log("ยกเลิกการลบ");
+      }
     },
     async dialogSave() {
       console.log("dialogSave");

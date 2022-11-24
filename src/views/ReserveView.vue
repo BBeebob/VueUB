@@ -80,9 +80,11 @@ export default {
     },
     async no(id) {
       //ยกเลิกการจอง
-      console.log("no : " + id);
-      //del
-      await deleteDoc(doc(db, "Reserve", id));
+      if (confirm("ยืนยันการลบ Reserve id:" + id + " ?")) {
+        //del
+        await deleteDoc(doc(db, "Reserve", id));
+        console.log("no : " + id);
+      }
     },
   },
   mounted() {
