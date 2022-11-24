@@ -25,8 +25,8 @@
         TimeCreate : {{ Date(TimeCreate) }}<br />
       </v-col>
       <v-col cols="2">
-        <!-- Dialog  -->
-        <v-row justify="center">
+        <!-- Dialog แก้ไข  -->
+        <v-row justify="center" v-if="user.adminUser">
           <v-dialog v-model="dialogEdit" persistent>
             <template v-slot:activator="{ props }"
               ><v-btn color="error" @click="delL(id)"> ลบ </v-btn>
@@ -155,6 +155,7 @@
         </v-list-item-subtitle>
         <template v-slot:append>
           <v-btn
+            v-if="user.uid == item.by"
             color="red"
             icon="mdi-information"
             variant="text"
@@ -166,7 +167,7 @@
     <!-- list -->
 
     <!-- Dialog  -->
-    <v-row justify="center">
+    <v-row justify="center" v-if="user.loginUser">
       <v-dialog v-model="dialog" persistent>
         <template v-slot:activator="{ props }">
           <!-- <v-btn color="primary" v-bind="props"> Open Dialog </v-btn> -->

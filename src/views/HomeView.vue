@@ -41,7 +41,7 @@
         <!-- list -->
 
         <!-- Dialog  -->
-        <v-row justify="center">
+        <v-row justify="center" v-if="user.adminUser">
           <v-dialog v-model="dialog" persistent>
             <template v-slot:activator="{ props }">
               <!-- <v-btn color="primary" v-bind="props"> Open Dialog </v-btn> -->
@@ -157,6 +157,7 @@ export default {
     };
   },
   async mounted() {
+    console.log(this.user);
     // เมื่อหน้าถูกเรียก ให้ดึงข้อมูลจากฐานข้อมูลแบบเรียลไทม์
     const q = query(collection(db, "Location"));
     // const unsubscribe =

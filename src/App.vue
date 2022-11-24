@@ -58,8 +58,9 @@ export default {
         // ถ้าล็อกอิน
 
         user.uid = u.uid;
+        user.email = u.email;
         // ...
-        console.log(user.uid);
+        console.log(u);
         console.log("ล็อกอินแล้วจ้า");
         // router.push("/");
         // root.login();

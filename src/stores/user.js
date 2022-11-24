@@ -33,6 +33,8 @@ export const useUserStore = defineStore("user", {
   }),
   getters: {
     loginUser: (state) => state.uid !== "",
+    // std.62122420108@ubru.ac.th
+    adminUser: (state) => state.email == "std.62122420108@ubru.ac.th",
   },
   actions: {
     // increment() {
