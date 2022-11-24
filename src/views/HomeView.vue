@@ -224,6 +224,8 @@ export default {
           Name: this.dlgName,
           Photo: photoName,
           About: this.dlgAbout,
+          TimeCreate: Date.now(),
+          TimeUpdate: Date.now(),
         });
 
         console.log(docRef.id);

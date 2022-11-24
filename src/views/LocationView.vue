@@ -3,7 +3,7 @@
     <h1>LocationView</h1>
     รูป
     <v-row class="รูป">
-      <v-col v-for="n in pathImgs" :key="n" class="d-flex child-flex" cols="4">
+      <v-col v-for="n in urlImgs" :key="n" class="d-flex child-flex" cols="4">
         <v-img :src="n" aspect-ratio="1" cover class="bg-grey-lighten-2">
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -253,10 +253,14 @@ export default {
       Name: "", //ชื่อ โลเคชั่น
       Photo: [], // ชื่อรูปทั้งหมดโลเคชั่น
       About: "", // หมายเหตุ
+      TimeCreate: 0,
+      TimeUpdate: 0,
+
       eName: "", // ชื่อโลเคชั่น หน้าแก้ไข
       ePhoto: [], // ชื่อรูปทั้งหมดโลเคชั่น  หน้าแก้ไข
       eNewPhoto: [], //รูปใหม่ หน้าแก้ไข
       eAbout: "", // หมายเหตุ  หน้าแก้ไข
+      eTimeUpdate: 0,
 
       items: [
         // รายการการจอง
