@@ -14,7 +14,7 @@
     <v-navigation-drawer app v-model="drawer" absolute clipped>
       <v-list :lines="false" nav>
         <v-list-item
-          v-for="(item, i) in ndItems"
+          v-for="(item, i) in mItems"
           :key="i"
           :value="item"
           :to="item.to"
@@ -79,11 +79,26 @@ export default {
   data: () => ({
     drawer: null,
     ndItems: [
-      { title: "หน้าแรก", icon: "mdi-home", to: "/" },
-      { title: "รายการจอง", icon: "mdi-book", to: "/reserve" },
-      { title: "ติดต่อ", icon: "mdi-comment", to: "/about" },
+      { title: "หน้าแรก", icon: "mdi-home", to: "/", show: "all" },
+      { title: "รายการจอง", icon: "mdi-book", to: "/reserve", show: "admin" },
+      { title: "ติดต่อ", icon: "mdi-comment", to: "/about", show: "all" },
     ],
   }),
+  computed: {
+    mItems() {
+      const o = [];
+      this.ndItems.forEach((i) => {
+        if (
+          i.show == "all" ||
+          (this.user.adminUser && i.show == "admin") ||
+          (this.user.loginUser && i.show == "user")
+        ) {
+          o.push(i);
+        }
+      });
+      return o;
+    },
+  },
   methods: {
     login() {
       //ไปหน้าล็อกอิน
