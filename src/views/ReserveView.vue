@@ -13,8 +13,10 @@
         :key="i"
         :value="item"
         active-color="primary"
-        prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
       >
+        <!-- แก้ให้สวย -->
+        <v-avatar class="mr-4" :color="item.color">{{ item.n }} </v-avatar>
+        <!-- แก้ให้สวย -->
         <v-list-item-title>{{ item.nameL }}</v-list-item-title>
 
         <v-list-item-subtitle>
@@ -53,7 +55,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "../DB";
+import { db, stringToColour } from "../DB";
 import router from "../router";
 
 export default {
@@ -69,6 +71,7 @@ export default {
       ],
     };
   },
+  computed: {},
   methods: {
     async yes(id, data) {
       // ยืนยันการจอง
@@ -96,9 +99,13 @@ export default {
     onSnapshot(q, (querySnapshot) => {
       this.items = [];
       querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        const avt = stringToColour(doc.data().byName);
         this.items.push({
           id: doc.id,
-          title: doc.data().by,
+          title: doc.data().byName,
+          color: avt.color,
+          n: avt.name,
           ...doc.data(),
         });
       });

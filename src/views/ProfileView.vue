@@ -11,63 +11,22 @@
     </v-row>
 
     <v-row>
-      <v-col>
-        name : {{ user.name }}
-        <!-- <v-text-field
-            :model-value="user.name"
-            name="name"
-            v-model="name"
-            label="ชื่อ นามสกุล"
-            :rules="nameRules"
-            required
-            clearable
-          ></v-text-field> -->
-      </v-col>
+      <v-col> name : {{ user.name }} </v-col>
     </v-row>
 
     <v-row>
-      <v-col>
-        faculty : {{ user.faculty }}
-        <!-- <v-text-field
-            name="faculty"
-            v-model="faculty"
-            label="ชื่อคณะ"
-            :rules="facultyRules"
-            required
-            clearable
-          ></v-text-field> -->
-      </v-col>
+      <v-col> faculty : {{ user.faculty }} </v-col>
     </v-row>
 
     <v-row>
-      <v-col>
-        phonenumber : {{ user.phonenumber }}
-
-        <!-- <v-text-field
-            name="phonenumber"
-            v-model="phonenumber"
-            label="ชื่อคณะ"
-            :rules="phonenumberRules"
-            required
-            clearable
-          ></v-text-field> -->
-      </v-col>
+      <v-col> phonenumber : {{ user.phonenumber }} </v-col>
     </v-row>
 
-    <v-row class="pb-7">
-      <!-- <v-col>
-          <v-btn color="success" @click="save()">แก้ไขโปรไฟล์</v-btn>
-        </v-col>
-        <v-col> </v-col>
-        <v-col>
-          <v-btn color="warning">รีเซทพาสเวิส</v-btn>
-        </v-col> -->
+    <v-row class="">
       <v-col>
-        <!-- <v-btn color="" @click="gohome()">กลับหน้าหลัก</v-btn> -->
+        <hr />
       </v-col>
     </v-row>
-
-    <v-row class=""> </v-row>
 
     <!-- Dialog แก้ไข  -->
     <v-row justify="center" v-if="user.loginUser">

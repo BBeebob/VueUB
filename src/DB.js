@@ -40,3 +40,18 @@ export const auth = getAuth(app);
 
 // Initialize Cloud Storage and get a reference to the service
 // export const storage = getStorage(app);
+
+export function stringToColour(str = "") {
+  let hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  let colour = "#";
+  for (let i = 0; i < 3; i++) {
+    let value = (hash >> (i * 8)) & 0xff;
+    const cc = "00" + value.toString(16);
+    colour = colour + cc.slice(-2);
+  }
+  const name = str.slice(-2);
+  return { color: colour, name };
+}
