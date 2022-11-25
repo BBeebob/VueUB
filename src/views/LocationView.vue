@@ -8,14 +8,9 @@
     <!-- --- -->
     <v-carousel v-model="model1">
       <v-carousel-item v-for="(item, i) in urlImgs" :key="item" :value="i">
-        <v-sheet height="100%" tile>
-          <div class="d-flex fill-height justify-center align-center">
-            <v-img
-              :aspect-ratio="4 / 3"
-              :width="300"
-              :src="item.url"
-              cover
-            ></v-img>
+        <v-sheet height="100%" tile color="grey-lighten-3">
+          <div class="fill-height">
+            <v-img :aspect-ratio="16 / 9" :src="item.url"></v-img>
           </div>
         </v-sheet>
       </v-carousel-item>
