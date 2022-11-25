@@ -52,6 +52,6 @@ export function stringToColour(str = "") {
     const cc = "00" + value.toString(16);
     colour = colour + cc.slice(-2);
   }
-  const name = str.slice(-2);
+  const name = str.slice(0, 2);
   return { color: colour, name };
 }
