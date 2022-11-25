@@ -420,6 +420,8 @@ export default {
           byName: this.user.name,
           byPic: this.user.pic,
           status: false,
+          TimeCreate: Date.now(),
+          TimeUpdate: Date.now(),
         });
 
         // console.log("Document written with ID: ", docRef.id);

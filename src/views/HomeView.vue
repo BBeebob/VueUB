@@ -126,6 +126,7 @@ import {
   query,
   // where,
   onSnapshot,
+  orderBy,
 } from "firebase/firestore";
 
 import { useUserStore } from "@/stores/user";
@@ -161,7 +162,7 @@ export default {
   async mounted() {
     console.log(this.user);
     // เมื่อหน้าถูกเรียก ให้ดึงข้อมูลจากฐานข้อมูลแบบเรียลไทม์
-    const q = query(collection(db, "Location"));
+    const q = query(collection(db, "Location"), orderBy("Name"));
     // const unsubscribe =
     onSnapshot(q, (querySnapshot) => {
       this.items = [];
@@ -181,10 +182,10 @@ export default {
       });
       //จัดเรียงตาม title
 
-      this.items.sort((a, b) =>
-        a.Name > b.title ? 1 : b.title > a.title ? -1 : 0
-      );
-      // console.log(unsubscribe);
+      // this.items.sort((a, b) =>
+      //   a.Name > b.title ? 1 : b.title > a.title ? -1 : 0
+      // );
+      // console.log(this.items);
     });
 
     // const unsub = onSnapshot(doc(db, "Location", this.id), (doc) => {

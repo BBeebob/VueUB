@@ -23,7 +23,7 @@
           Start :{{ item.StartDate }} - {{ item.StartTime }}<br />
           End :{{ item.EndDate }} - {{ item.EndTime }}<br />
 
-          About :{{ item.About }}<br />
+          TimeCreate :{{ item.TimeCreate }}<br />
           by :{{ item.by }}<br />
         </v-list-item-subtitle>
         <template v-slot:append>
@@ -54,6 +54,7 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  orderBy,
 } from "firebase/firestore";
 import { db, stringToColour } from "../DB";
 import router from "../router";
@@ -94,7 +95,11 @@ export default {
   },
   mounted() {
     // เมื่อเปิดหน้า ดึงข้อมูล Reserve ที่ยังไม่ยืนยันมาแสดง
-    const q = query(collection(db, "Reserve"), where("status", "==", false));
+    const q = query(
+      collection(db, "Reserve"),
+      where("status", "==", false),
+      orderBy("TimeCreate")
+    );
     // const unsubscribe =
     onSnapshot(q, (querySnapshot) => {
       this.items = [];
@@ -111,10 +116,10 @@ export default {
       });
       //จัดเรียง
 
-      this.items.sort((a, b) =>
-        a.Name > b.title ? 1 : b.title > a.title ? -1 : 0
-      );
-      console.log(this.items);
+      // this.items.sort((a, b) =>
+      //   a.Name > b.title ? 1 : b.title > a.title ? -1 : 0
+      // );
+      // console.log(this.items);
     });
   },
 };
