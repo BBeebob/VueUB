@@ -22,7 +22,7 @@
         <v-list lines="three">
           <v-list-subheader
             style="font-size: x-large; color: black"
-            class="mx-auto mb-5"
+            class="d-flex flex-column justify-space-between align-center"
             >สถานที่</v-list-subheader
           >
 
@@ -55,7 +55,8 @@
 
               <v-col cols="9"
                 ><!-- แก้ให้สวย -->
-                <h3>{{ item.title }}</h3>
+                <h2>{{ item.title }}</h2>
+                <br />
 
                 <div
                   class="text-xs-h1"
