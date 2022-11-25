@@ -427,9 +427,11 @@ export default {
       if (confirm("ยืนยันการลบ Reserve id:" + id + " ?")) {
         //del Reserve
 
-        await deleteDoc(doc(db, "Reserve", id));
-        console.log("del : " + id);
+        this.delAuto(id);
       }
+    },
+    async delAuto(id) {
+      await deleteDoc(doc(db, "Reserve", id));
     },
     async delL(id) {
       if (confirm("ยืนยันการลบ Location id:" + id + " ?")) {
@@ -538,7 +540,7 @@ export default {
         const dE = new Date(doc.data().EndDate + " " + doc.data().EndTime);
         if (dE < d) {
           //ถ้าเกินให้ลบ
-          this.del(doc.id);
+          this.delAuto(doc.id);
         } else {
           //ถ้าไม่เกินให้แสดงปกติ
 

@@ -105,10 +105,13 @@ export default {
     async no(id) {
       //ยกเลิกการจอง
       if (confirm("ยืนยันการลบ Reserve id:" + id + " ?")) {
-        console.log("no : " + id);
-        //del
-        await deleteDoc(doc(db, "Reserve", id));
+        this.noAuto(id);
       }
+    },
+    async noAuto(id) {
+      //ยกเลิกการจอง
+
+      await deleteDoc(doc(db, "Reserve", id));
     },
   },
   mounted() {
@@ -128,7 +131,7 @@ export default {
 
         if (dE < d) {
           //ถ้าเกินให้ลบ
-          this.no(doc.id);
+          this.noAuto(doc.id);
         } else {
           //ถ้าไม่เกินให้แสดงปกติ
           this.items.push({
