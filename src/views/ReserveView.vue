@@ -1,6 +1,6 @@
 <template>
   <div class="Reserve">
-    <h1 style="position: relative; left: 800px; top;: 3px">ลิสต์ทั้งหมด</h1>
+    <h1 style="position: relative; left: 870px; top: 100px">ลิสต์ทั้งหมด</h1>
 
     <!-- --- -->
     <v-list lines="three">

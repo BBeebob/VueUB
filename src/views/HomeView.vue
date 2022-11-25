@@ -93,7 +93,7 @@
                     <v-col cols="12" sm="6"> </v-col>
                   </v-row>
                 </v-container>
-                <small>*indicates required field</small>
+                <small></small>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
