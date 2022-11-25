@@ -453,13 +453,24 @@ export default {
       //เมื่อ เพิ่ม การจอง
       try {
         // const docRef =
+        // ค้นหาระหว่าง เริมกับจบ  ว่ามีไหม
+        const sDT = new Date(
+          this.dlgStartDate + " " + this.dlgStartTime
+        ).getTime();
+
+        //ถ้าไม่มี บันทึกข้อมูล
+
+        //ถ้ามี แจ้งเตือนระบบซ้ำ
+
         await addDoc(collection(db, "Reserve"), {
           idL: this.id,
           nameL: this.Name,
           StartDate: this.dlgStartDate,
           StartTime: this.dlgStartTime,
+          startDT: sDT,
           EndDate: this.dlgEndDate,
           EndTime: this.dlgEndTime,
+          endDT: new Date(this.dlgEndDate + " " + this.dlgEndTime).getTime(),
 
           About: this.dlgAbout,
           by: this.user.uid,
