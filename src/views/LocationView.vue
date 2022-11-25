@@ -142,6 +142,9 @@
         :value="item"
         active-color="primary"
       >
+        <!-- แก้ให้สวย -->
+        <v-avatar class="mr-4" :color="item.color">{{ item.n }} </v-avatar>
+        <!-- แก้ให้สวย -->
         <v-list-item-title>{{ item.byName }}</v-list-item-title>
 
         <v-list-item-subtitle>
@@ -260,7 +263,7 @@ import {
   // updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../DB";
+import { db, stringToColour } from "../DB";
 import { useUserStore } from "@/stores/user";
 import router from "../router";
 import {
@@ -312,6 +315,11 @@ export default {
       dlgEndTime: "", //เพิ่มการจอง
       dlgTimeCreate: "", //เพิ่มการจอง วันที่สร้าง
     };
+  },
+  computed: {
+    avt() {
+      return stringToColour(this.user.name);
+    },
   },
   methods: {
     editL() {
@@ -476,9 +484,13 @@ export default {
     onSnapshot(q, (querySnapshot) => {
       this.items = [];
       querySnapshot.forEach((doc) => {
+        const avt = stringToColour(doc.data().byName);
+        console.log(avt);
         this.items.push({
           id: doc.id,
-          title: doc.data().by,
+          title: doc.data().byName,
+          color: avt.color,
+          n: avt.name,
           ...doc.data(),
         });
       });

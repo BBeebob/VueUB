@@ -5,12 +5,11 @@
       <v-toolbar-title>ระบบจองสถานที่ UBRU</v-toolbar-title>
       <v-avatar
         class="mr-4"
-        color="info"
+        :color="avt.color"
         @click="profile()"
         v-if="user.loginUser"
-        :image="user.pic"
       >
-        <!-- <v-icon icon="mdi-account-circle"></v-icon> -->
+        {{ avt.name }}
       </v-avatar>
       <v-btn
         class="mr-3"
@@ -53,7 +52,7 @@
 </template>
 
 <script>
-import { auth, db } from "./DB";
+import { auth, db, stringToColour } from "./DB";
 import {
   // getAuth,
   // signInWithEmailAndPassword,
@@ -121,6 +120,9 @@ export default {
     ],
   }),
   computed: {
+    avt() {
+      return stringToColour(this.user.name);
+    },
     mItems() {
       const o = [];
       this.ndItems.forEach((i) => {
