@@ -23,12 +23,13 @@
           <v-col cols="11"
             ><v-list-item-title>{{ item.nameL }}</v-list-item-title>
 
-            <v-list-item-subtitle>
-              Start :{{ item.StartDate }} - {{ item.StartTime }}<br />
-              End :{{ item.EndDate }} - {{ item.EndTime }}<br />
+            <div>
+              เริ่ม :{{ item.StartDate }} - {{ item.StartTime }}<br />
+              ถึง :{{ item.EndDate }} - {{ item.EndTime }}<br />
+              หมายเหตุ :{{ item.About }}<br />
 
-              TimeCreate :{{ item.TimeCreate }}<br />
-              by :{{ item.by }}<br /> </v-list-item-subtitle
+              จองโดย :{{ item.title }}<br />
+              ส่งเมื่อ :{{ Date(item.TimeCreate) }}<br /></div
           ></v-col>
         </v-row>
 
