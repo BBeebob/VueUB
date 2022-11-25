@@ -31,10 +31,18 @@
             :key="i"
             :value="item"
             active-color="primary"
-            :prepend-avatar="item.pic"
             :to="'/location/' + item.id"
             style="border-bottom: solid 1px #33333333"
           >
+            <!-- แก้ให้สวย -->
+            <v-avatar
+              size="80"
+              class="mr-4"
+              :color="item.color"
+              :image="item.pic"
+              >{{ item.n }}
+            </v-avatar>
+            <!-- แก้ให้สวย -->
             <v-list-item-title>{{ item.title }}</v-list-item-title>
 
             <v-list-item-subtitle>
