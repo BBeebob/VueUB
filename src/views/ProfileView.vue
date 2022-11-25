@@ -37,8 +37,8 @@
           <v-col>
             <v-btn v-bind="props" color="warning" @click="editL()">
               <v-icon>mdi-plus</v-icon>Edit
-            </v-btn></v-col
-          >
+            </v-btn>
+          </v-col>
         </template>
         <v-card>
           <v-card-title>
@@ -108,7 +108,7 @@
         </v-card>
       </v-dialog>
       <v-col
-        ><v-btn v-bind="props" color="" @click="repass()">
+        ><v-btn color="" @click="repass()">
           <v-icon>mdi-plus</v-icon>re password
         </v-btn></v-col
       >

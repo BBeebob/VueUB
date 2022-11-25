@@ -9,23 +9,29 @@
       ></v-list-subheader>
 
       <v-list-item
-        v-for="(item, i) in items"
+        v-for="(item, i) in listL"
         :key="i"
         :value="item"
         active-color="primary"
       >
-        <!-- แก้ให้สวย -->
-        <v-avatar class="mr-4" :color="item.color">{{ item.n }} </v-avatar>
-        <!-- แก้ให้สวย -->
-        <v-list-item-title>{{ item.nameL }}</v-list-item-title>
+        <v-row>
+          <v-col cols="1"
+            ><!-- แก้ให้สวย -->
+            <v-avatar class="mr-4" :color="item.color">{{ item.n }} </v-avatar>
+            <!-- แก้ให้สวย --></v-col
+          >
+          <v-col cols="11"
+            ><v-list-item-title>{{ item.nameL }}</v-list-item-title>
 
-        <v-list-item-subtitle>
-          Start :{{ item.StartDate }} - {{ item.StartTime }}<br />
-          End :{{ item.EndDate }} - {{ item.EndTime }}<br />
+            <v-list-item-subtitle>
+              Start :{{ item.StartDate }} - {{ item.StartTime }}<br />
+              End :{{ item.EndDate }} - {{ item.EndTime }}<br />
 
-          TimeCreate :{{ item.TimeCreate }}<br />
-          by :{{ item.by }}<br />
-        </v-list-item-subtitle>
+              TimeCreate :{{ item.TimeCreate }}<br />
+              by :{{ item.by }}<br /> </v-list-item-subtitle
+          ></v-col>
+        </v-row>
+
         <template v-slot:append>
           <v-btn
             color="blue"
@@ -71,7 +77,17 @@ export default {
       ],
     };
   },
-  computed: {},
+  computed: {
+    listL: function () {
+      function compare(a, b) {
+        if (a.TimeCreate < b.TimeCreate) return -1;
+        if (a.TimeCreate > b.TimeCreate) return 1;
+        return 0;
+      }
+      const a = this.items;
+      return a.sort(compare);
+    },
+  },
   methods: {
     async yes(id, data) {
       // ยืนยันการจอง

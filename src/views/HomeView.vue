@@ -27,7 +27,7 @@
           >
 
           <v-list-item
-            v-for="(item, i) in items"
+            v-for="(item, i) in listL"
             :key="i"
             :value="item"
             active-color="primary"
@@ -37,15 +37,21 @@
             <!-- แก้ให้สวย -->
 
             <v-row>
-              <v-col cols="3"
-                ><v-avatar
+              <v-col cols="3">
+                <!-- <v-avatar
                   size="300"
                   class="mr-4"
                   :color="item.color"
                   :image="item.pic"
                   >{{ item.n }}
-                </v-avatar></v-col
-              >
+                </v-avatar> -->
+                <v-img
+                  :aspect-ratio="4 / 3"
+                  width="300"
+                  :src="item.pic"
+                  cover
+                ></v-img>
+              </v-col>
               <v-col cols="9"
                 ><!-- แก้ให้สวย -->
                 <h3>{{ item.title }}</h3>
@@ -147,7 +153,7 @@ import {
   query,
   // where,
   onSnapshot,
-  orderBy,
+  // orderBy,
 } from "firebase/firestore";
 
 import { useUserStore } from "@/stores/user";
@@ -177,38 +183,47 @@ export default {
       dlgAbout: "5555",
       selectedNdItem: 0,
 
-      items: [
-        // { type: "subheader", title: "สถานที่" }
-      ],
+      items: [],
     };
   },
   async mounted() {
-    console.log(this.user);
     // เมื่อหน้าถูกเรียก ให้ดึงข้อมูลจากฐานข้อมูลแบบเรียลไทม์
-    let q = query(collection(db, "Location"), orderBy("Name"));
+    let q = query(collection(db, "Location"));
 
     // const unsubscribe =
     onSnapshot(q, (querySnapshot) => {
       this.items = [];
       querySnapshot.forEach((doc) => {
-        const n = doc.data().Photo[0] || "00";
-        const sgImgRef = ref(storage, "images/" + doc.id + "/" + n);
-        getDownloadURL(sgImgRef).then((url) => {
-          // Insert url into an <img> tag to "download"
+        console.log(doc.data());
+        const n = doc.data().Photo[0];
+        if (n) {
+          const sgImgRef = ref(storage, "images/" + doc.id + "/" + n);
+          getDownloadURL(sgImgRef).then((url) => {
+            // Insert url into an <img> tag to "download"
+            this.items.push({
+              id: doc.id,
+              title: doc.data().Name,
+              subtitle: doc.data().About,
+
+              pic: url,
+            });
+          });
+        } else {
           this.items.push({
             id: doc.id,
             title: doc.data().Name,
             subtitle: doc.data().About,
 
-            pic: url,
+            pic: "", // ใส่รูป ค่าเริ่มต้น
           });
-        });
+        }
       });
       //จัดเรียงตาม title
-
-      // this.items.sort((a, b) =>
-      //   a.Name > b.title ? 1 : b.title > a.title ? -1 : 0
+      // console.log(this.items);
+      // const www1 = this.items.sort((a, b) =>
+      //   a.title > b.title ? 1 : b.title > a.title ? -1 : 0
       // );
+      // console.log(www1);
       // console.log(this.items);
     });
 
@@ -232,7 +247,17 @@ export default {
     //   // this.items.push({ type: "divider" });
     // });
   },
-  computed: {},
+  computed: {
+    listL: function () {
+      function compare(a, b) {
+        if (a.title < b.title) return -1;
+        if (a.title > b.title) return 1;
+        return 0;
+      }
+      const a = this.items;
+      return a.sort(compare);
+    },
+  },
   watch: {
     dialog(n) {
       // ตรวจสอบเมื่อ dialog เปิด
