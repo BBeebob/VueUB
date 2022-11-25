@@ -1,7 +1,15 @@
 <template>
   <div class="LocationView">
     <h1>LocationView</h1>
-    <v-carousel v-model="model1" cycle :show-arrows="true">
+    <v-carousel
+      class="fill-height fluid"
+      v-model="model1"
+      max-height
+      with
+      contain
+      cycle
+      :show-arrows="true"
+    >
       <v-carousel-item
         v-for="(item, i) in urlImgs"
         :key="i"
