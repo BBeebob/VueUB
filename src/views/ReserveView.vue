@@ -54,7 +54,6 @@ import {
   doc,
   updateDoc,
   deleteDoc,
-  orderBy,
 } from "firebase/firestore";
 import { db, stringToColour } from "../DB";
 import router from "../router";
@@ -97,8 +96,8 @@ export default {
     // เมื่อเปิดหน้า ดึงข้อมูล Reserve ที่ยังไม่ยืนยันมาแสดง
     const q = query(
       collection(db, "Reserve"),
-      where("status", "==", false),
-      orderBy("TimeCreate")
+      // orderBy("TimeCreate"),
+      where("status", "==", false)
     );
     // const unsubscribe =
     onSnapshot(q, (querySnapshot) => {
@@ -106,6 +105,7 @@ export default {
       querySnapshot.forEach((doc) => {
         console.log(doc.data());
         const avt = stringToColour(doc.data().byName);
+
         this.items.push({
           id: doc.id,
           title: doc.data().byName,
