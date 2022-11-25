@@ -1,6 +1,8 @@
 <template>
   <div class="Reserve">
-    <h1 style="position: relative; left: 300px; top: 100px">ลิสต์ทั้งหมด</h1>
+    <h1 class="d-flex flex-column justify-space-between align-center">
+      ลิสต์ทั้งหมด
+    </h1>
 
     <!-- --- -->
     <v-list lines="three">

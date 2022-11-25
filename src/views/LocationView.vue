@@ -1,13 +1,14 @@
 <template>
   <div class="LocationView">
-    <h1>LocationView</h1>
+    <br />
+    <h1 class="d-flex flex-column justify-space-between align-center">
+      {{ Name }}
+    </h1>
+    <br />
     <v-carousel
-      class="fill-height fluid"
+      class="fill-height"
       v-model="model1"
       max-height
-      with
-      contain
-      cycle
       :show-arrows="true"
     >
       <v-carousel-item
@@ -33,11 +34,10 @@
     </v-row> -->
     <v-row>
       <v-col cols="10"
-        >id : {{ id }} <br />
-        ชื่อ : {{ Name }} <br />
-        รายระเอียด : {{ About }}<br />
-        TimeUpdate : {{ Date(TimeUpdate) }}<br />
-        TimeCreate : {{ Date(TimeCreate) }}<br />
+        ><br />
+        รายระเอียด : {{ About }}<br /><br />
+        อัพเดตล่าสุด : {{ Date(TimeUpdate) }}<br />
+        เวลาที่สร้าง : {{ Date(TimeCreate) }}<br />
       </v-col>
       <v-col cols="2">
         <!-- Dialog แก้ไข  -->
