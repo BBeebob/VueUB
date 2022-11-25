@@ -5,19 +5,24 @@
       {{ Name }}
     </h1>
     <br />
-    <v-carousel
-      class="fill-height"
-      v-model="model1"
-      max-height
-      :show-arrows="true"
-    >
-      <v-carousel-item
-        v-for="(item, i) in urlImgs"
-        :key="i"
-        :src="item.url"
-        cover
-      ></v-carousel-item>
+    <!-- --- -->
+    <v-carousel v-model="model1">
+      <v-carousel-item v-for="(item, i) in urlImgs" :key="item" :value="i">
+        <v-sheet height="100%" tile>
+          <div class="d-flex fill-height justify-center align-center">
+            <v-img
+              :aspect-ratio="4 / 3"
+              :width="300"
+              :src="item.url"
+              cover
+            ></v-img>
+          </div>
+        </v-sheet>
+      </v-carousel-item>
     </v-carousel>
+
+    <!-- --- -->
+
     <!-- <v-row class="รูป">
       <v-col v-for="n in urlImgs" :key="n" class="d-flex child-flex" cols="4">
         <v-img :src="n.url" aspect-ratio="1" cover class="bg-grey-lighten-2">
@@ -36,7 +41,6 @@
       <v-col cols="10"
         ><br />
         <b class="pl-5">รายระเอียด</b> : {{ About }}<br /><br />
-        <b class="pl-5">อัพเดตล่าสุด</b> : {{ new Date(TimeUpdate) }}<br />
         <b class="pl-5">อัพเดตล่าสุด</b> : {{ new Date(TimeUpdate) }}<br />
         <b class="pl-5">เวลาที่สร้าง</b> : {{ new Date(TimeCreate) }}<br />
       </v-col>
@@ -355,7 +359,20 @@ export default {
     avt() {
       return stringToColour(this.user.name);
     },
-    listL: function () {
+    testDT() {
+      // const start = new Date(
+      //   this.dlgStartDate + " " + this.dlgStartTime
+      // ).getTime();
+      // const end = new Date(this.dlgEndDate + " " + this.dlgEndTime).getTime();
+
+      // ค้นหา start ที่อยู่ระหว่าง startDT - endDT
+
+      // ค้นหา end ที่อยู่ระหว่าง startDT - endDT
+      //
+
+      return true;
+    },
+    listL() {
       function compare(a, b) {
         if (a.TimeCreate < b.TimeCreate) return -1;
         if (a.TimeCreate > b.TimeCreate) return 1;
@@ -559,6 +576,7 @@ export default {
           this.items.push({
             id: doc.id,
             title: doc.data().byName,
+            error: false,
             color: avt.color,
             n: avt.name,
             ...doc.data(),
