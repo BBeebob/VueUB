@@ -1,7 +1,15 @@
 <template>
   <div class="LocationView">
     <h1>LocationView</h1>
-    <v-row class="รูป">
+    <v-carousel v-model="model1" cycle :show-arrows="true">
+      <v-carousel-item
+        v-for="(item, i) in urlImgs"
+        :key="i"
+        :src="item.url"
+        cover
+      ></v-carousel-item>
+    </v-carousel>
+    <!-- <v-row class="รูป">
       <v-col v-for="n in urlImgs" :key="n" class="d-flex child-flex" cols="4">
         <v-img :src="n.url" aspect-ratio="1" cover class="bg-grey-lighten-2">
           <template v-slot:placeholder>
@@ -14,12 +22,12 @@
           </template>
         </v-img>
       </v-col>
-    </v-row>
+    </v-row> -->
     <v-row>
       <v-col cols="10"
         >id : {{ id }} <br />
-        Name : {{ Name }} <br />
-        About : {{ About }}<br />
+        ชื่อ : {{ Name }} <br />
+        รายระเอียด : {{ About }}<br />
         TimeUpdate : {{ Date(TimeUpdate) }}<br />
         TimeCreate : {{ Date(TimeCreate) }}<br />
       </v-col>
@@ -28,9 +36,20 @@
         <v-row justify="center" v-if="user.adminUser">
           <v-dialog v-model="dialogEdit" persistent>
             <template v-slot:activator="{ props }"
-              ><v-btn color="error" @click="delL(id)"> ลบ </v-btn>
+              ><v-btn
+                style="position: relative; top: 25px"
+                color="error"
+                @click="delL(id)"
+              >
+                ลบ
+              </v-btn>
               <!-- <v-btn color="primary" v-bind="props"> Open Dialog </v-btn> -->
-              <v-btn v-bind="props" color="warning" @click="editL()">
+              <v-btn
+                style="position: relative; top: 25px"
+                v-bind="props"
+                color="warning"
+                @click="editL()"
+              >
                 <v-icon>mdi-plus</v-icon>Edit
               </v-btn>
             </template>
@@ -186,7 +205,7 @@
             <span class="text-h5">จองสถานที่</span>
           </v-card-title>
           <v-card-subtitle>
-            Name : {{ Name }}<br />
+            ชื่อ : {{ Name }}<br />
             โดย : {{ user.uid }}
           </v-card-subtitle>
           <v-card-text>
@@ -287,6 +306,7 @@ export default {
   data() {
     return {
       dialog: false, //เพิ่มการจอง
+      model1: 0,
       dialogEdit: false, //แก้ไขโลเคชั่น
       id: this.$route.params.id, // ไอดี โลเคชั่นจาก url
       urlImgs: [], //url ims ของโลเคชั่น
