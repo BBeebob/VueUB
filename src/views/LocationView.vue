@@ -6,10 +6,10 @@
     </h1>
     <br />
     <!-- --- -->
-    <v-carousel v-model="model1">
+    <v-carousel cycle v-model="model1">
       <v-carousel-item v-for="(item, i) in urlImgs" :key="item" :value="i">
         <v-sheet height="100%" tile color="grey-lighten-3">
-          <div class="fill-height">
+          <div class="fill-height" cycle>
             <v-img :aspect-ratio="16 / 9" :src="item.url"></v-img>
           </div>
         </v-sheet>
@@ -35,7 +35,7 @@
     <v-row>
       <v-col cols="10"
         ><br />
-        <b class="pl-5">รายระเอียด</b> : {{ About }}<br /><br />
+        <b class="pl-5">รายระเอียด</b> : {{ About }}<br /><br /><br />
         <b class="pl-5">อัพเดตล่าสุด</b> : {{ new Date(TimeUpdate) }}<br />
         <b class="pl-5">เวลาที่สร้าง</b> : {{ new Date(TimeCreate) }}<br />
       </v-col>

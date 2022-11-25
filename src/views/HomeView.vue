@@ -22,8 +22,8 @@
         <v-list lines="three">
           <v-list-subheader
             style="font-size: x-large; color: black"
-            class="d-flex flex-column justify-space-between align-center"
-            >สถานที่</v-list-subheader
+            class="d-flex flex-column justify-space-between align-center text-h4"
+            >สถานที่ทั้งหมด</v-list-subheader
           >
 
           <v-list-item

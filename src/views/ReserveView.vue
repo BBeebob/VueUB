@@ -1,7 +1,8 @@
 <template>
   <div class="Reserve">
+    <br />
     <h1 class="d-flex flex-column justify-space-between align-center">
-      ลิสต์ทั้งหมด
+      รายการขอจอง
     </h1>
 
     <!-- --- -->
