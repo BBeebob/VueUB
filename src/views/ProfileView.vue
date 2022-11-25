@@ -66,7 +66,6 @@
         <!-- <v-btn color="" @click="gohome()">กลับหน้าหลัก</v-btn> -->
       </v-col>
     </v-row>
-    <hr />
 
     <v-row class=""> </v-row>
 
@@ -76,9 +75,11 @@
         <template v-slot:activator="{ props }">
           <!-- <v-btn color="error" @click="delL(id)"> ลบ </v-btn> -->
           <!-- <v-btn color="primary" v-bind="props"> Open Dialog </v-btn> -->
-          <v-btn v-bind="props" color="warning" @click="editL()">
-            <v-icon>mdi-plus</v-icon>Edit
-          </v-btn>
+          <v-col>
+            <v-btn v-bind="props" color="warning" @click="editL()">
+              <v-icon>mdi-plus</v-icon>Edit
+            </v-btn></v-col
+          >
         </template>
         <v-card>
           <v-card-title>
@@ -147,13 +148,19 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-col
+        ><v-btn v-bind="props" color="" @click="repass()">
+          <v-icon>mdi-plus</v-icon>re password
+        </v-btn></v-col
+      >
     </v-row>
     <!--  -->
   </v-container>
 </template>
 <script>
+import { sendPasswordResetEmail } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../DB";
+import { auth, db } from "../DB";
 import router from "../router";
 import { useUserStore } from "../stores/user";
 
@@ -229,6 +236,19 @@ export default {
       console.log("ปิด");
       router.push("/");
       //ไปหน้าโฮม
+    },
+    repass() {
+      // รีรหัส
+      sendPasswordResetEmail(auth, this.user.email)
+        .then(() => {
+          // Password reset email sent!
+
+          alert("โปรดดรวจดูที่ อีเมลของท่าน เมลอาจอยู่ในถังขยะ");
+        })
+        .catch((error) => {
+          alert(error.message);
+          // ..
+        });
     },
   },
 };
