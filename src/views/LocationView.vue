@@ -152,7 +152,7 @@
         </v-list-item-subtitle>
         <template v-slot:append>
           <v-btn
-            v-if="user.uid == item.by"
+            v-if="user.uid == item.by || user.adminUser"
             color="red"
             icon="mdi-information"
             variant="text"
@@ -172,7 +172,7 @@
             v-bind="props"
             color="primary"
             size="large"
-            style="position: absolute; right: 20px; bottom: 20px"
+            style="position: fixed; right: 20px; bottom: 20px"
             icon
           >
             <v-icon>mdi-plus</v-icon>
