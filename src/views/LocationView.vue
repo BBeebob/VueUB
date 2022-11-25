@@ -141,16 +141,14 @@
         :key="i"
         :value="item"
         active-color="primary"
-        prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
       >
-        <v-list-item-title>{{ item.by }}</v-list-item-title>
+        <v-list-item-title>{{ item.byName }}</v-list-item-title>
 
         <v-list-item-subtitle>
           Start :{{ item.StartDate }} - {{ item.StartTime }}<br />
           End :{{ item.EndDate }} - {{ item.EndTime }}<br />
 
           About :{{ item.About }}<br />
-          by :{{ item.by }}<br />
         </v-list-item-subtitle>
         <template v-slot:append>
           <v-btn
@@ -325,12 +323,8 @@ export default {
 
       this.dialogEdit = true;
     },
-    async dialogEditSave() {
-      // แก้ไข Location เมื่อเซฟ
-
-      //ลบรูปเก่า
-
-      this.eDelPhoto.forEach(async (name) => {
+    delPic(arrName = []) {
+      arrName.forEach(async (name) => {
         console.log("ลบรูปชื่อ :" + name);
         const sgImgRef = ref(storage, "images/" + this.id + "/" + name);
 
@@ -347,6 +341,12 @@ export default {
         }
         console.log("this.ePhoto :", this.ePhoto);
       });
+    },
+    async dialogEditSave() {
+      // แก้ไข Location เมื่อเซฟ
+
+      //ลบรูปเก่า
+      this.delPic(this.eDelPhoto);
 
       //เพิ่มลูปใหม่
       // ชื่อของรูปภาพทั้งหมด
@@ -383,6 +383,8 @@ export default {
     async delL(id) {
       if (confirm("ยืนยันการลบ Location id:" + id + " ?")) {
         // Save it!
+        // ลบรูปทีมีใน Location
+        this.delPic(this.Photo);
         //del Location
         await deleteDoc(doc(db, "Location", id));
         router.push("/");
@@ -407,6 +409,8 @@ export default {
 
           About: this.dlgAbout,
           by: this.user.uid,
+          byName: this.user.name,
+          byPic: this.user.pic,
           status: false,
         });
 

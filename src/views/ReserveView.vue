@@ -72,17 +72,21 @@ export default {
   methods: {
     async yes(id, data) {
       // ยืนยันการจอง
-      console.log("yes : " + id);
-      await updateDoc(doc(db, "Reserve", id), {
-        status: true,
-      });
-      router.push("/location/" + data.idL);
+      if (confirm("ยืนยันการจอง Reserve id:" + id + " ?")) {
+        console.log("yes : " + id);
+        await updateDoc(doc(db, "Reserve", id), {
+          status: true,
+        });
+        router.push("/location/" + data.idL);
+      }
     },
     async no(id) {
       //ยกเลิกการจอง
-      console.log("no : " + id);
-      //del
-      await deleteDoc(doc(db, "Reserve", id));
+      if (confirm("ยืนยันการลบ Reserve id:" + id + " ?")) {
+        console.log("no : " + id);
+        //del
+        await deleteDoc(doc(db, "Reserve", id));
+      }
     },
   },
   mounted() {
