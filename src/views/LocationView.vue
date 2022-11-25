@@ -531,13 +531,25 @@ export default {
       querySnapshot.forEach((doc) => {
         const avt = stringToColour(doc.data().byName);
         console.log(avt);
-        this.items.push({
-          id: doc.id,
-          title: doc.data().byName,
-          color: avt.color,
-          n: avt.name,
-          ...doc.data(),
-        });
+
+        //ตรวจสอบว่าเกินเวลารึปล่าว
+
+        const d = new Date();
+        const dE = new Date(doc.data().EndDate + " " + doc.data().EndTime);
+        if (dE < d) {
+          //ถ้าเกินให้ลบ
+          this.del(doc.id);
+        } else {
+          //ถ้าไม่เกินให้แสดงปกติ
+
+          this.items.push({
+            id: doc.id,
+            title: doc.data().byName,
+            color: avt.color,
+            n: avt.name,
+            ...doc.data(),
+          });
+        }
       });
       //จัดเรียง
       this.items.sort((a, b) =>

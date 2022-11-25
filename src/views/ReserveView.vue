@@ -31,7 +31,7 @@
               หมายเหตุ :{{ item.About }}<br />
 
               จองโดย :{{ item.title }}<br />
-              ส่งเมื่อ :{{ Date(item.TimeCreate) }}<br /></div
+              ส่งเมื่อ :{{ new Date(item.TimeCreate) }}<br /></div
           ></v-col>
         </v-row>
 
@@ -113,11 +113,7 @@ export default {
   },
   mounted() {
     // เมื่อเปิดหน้า ดึงข้อมูล Reserve ที่ยังไม่ยืนยันมาแสดง
-    const q = query(
-      collection(db, "Reserve"),
-      // orderBy("TimeCreate"),
-      where("status", "==", false)
-    );
+    const q = query(collection(db, "Reserve"), where("status", "==", false));
     // const unsubscribe =
     onSnapshot(q, (querySnapshot) => {
       this.items = [];
@@ -125,13 +121,24 @@ export default {
         console.log(doc.data());
         const avt = stringToColour(doc.data().byName);
 
-        this.items.push({
-          id: doc.id,
-          title: doc.data().byName,
-          color: avt.color,
-          n: avt.name,
-          ...doc.data(),
-        });
+        //ตรวจสอบว่าเกินเวลารึปล่าว
+
+        const d = new Date();
+        const dE = new Date(doc.data().EndDate + " " + doc.data().EndTime);
+
+        if (dE < d) {
+          //ถ้าเกินให้ลบ
+          this.no(doc.id);
+        } else {
+          //ถ้าไม่เกินให้แสดงปกติ
+          this.items.push({
+            id: doc.id,
+            title: doc.data().byName,
+            color: avt.color,
+            n: avt.name,
+            ...doc.data(),
+          });
+        }
       });
       //จัดเรียง
 
