@@ -2,15 +2,15 @@
   <v-app>
     <v-main>
       <v-container fluid>
-        <!-- <v-text-field
-          v-model="message"
+        <v-text-field
+          v-model="s"
           label="ค้นหาสถานที่"
           density="compact"
           variant="solo"
           append-icon="mdi-magnify"
           single-line
           @click:append="send()"
-        ></v-text-field> -->
+        ></v-text-field>
         <!-- list -->
         <!-- <v-list :items="items" item-props lines="three" active-color="primary">
           <template v-slot:subtitle="{ subtitle }">
@@ -176,7 +176,7 @@ export default {
   },
   data() {
     return {
-      message: this.$route.query["s"],
+      s: this.$route.query["s"] || "",
       dialog: false,
       dlgName: "",
       dlgPhoto: [],
@@ -255,7 +255,9 @@ export default {
         return 0;
       }
       const a = this.items;
-      return a.sort(compare);
+      return a.sort(compare).filter((post) => {
+        return post.title.toLowerCase().includes(this.s.toLowerCase());
+      });
     },
   },
   watch: {
