@@ -35,9 +35,10 @@
     <v-row>
       <v-col cols="10"
         ><br />
-        รายระเอียด : {{ About }}<br /><br />
-        อัพเดตล่าสุด : {{ Date(TimeUpdate) }}<br />
-        เวลาที่สร้าง : {{ Date(TimeCreate) }}<br />
+        <b class="pl-5">รายระเอียด</b> : {{ About }}<br /><br />
+        <b class="pl-5">อัพเดตล่าสุด</b> : {{ new Date(TimeUpdate) }}<br />
+        <b class="pl-5">อัพเดตล่าสุด</b> : {{ new Date(TimeUpdate) }}<br />
+        <b class="pl-5">เวลาที่สร้าง</b> : {{ new Date(TimeCreate) }}<br />
       </v-col>
       <v-col cols="2">
         <!-- Dialog แก้ไข  -->
