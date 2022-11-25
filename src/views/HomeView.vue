@@ -52,6 +52,7 @@
                   cover
                 ></v-img>
               </v-col>
+
               <v-col cols="9"
                 ><!-- แก้ให้สวย -->
                 <h3>{{ item.title }}</h3>

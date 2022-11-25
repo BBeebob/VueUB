@@ -5,21 +5,21 @@
     </v-row>
     <v-row>
       <v-col>
-        e mail : {{ user.email }}
+        E mail : {{ user.email }}
         <!-- <v-text-field v-model="email" label="E-mail" readonly></v-text-field> -->
       </v-col>
     </v-row>
 
     <v-row>
-      <v-col> name : {{ user.name }} </v-col>
+      <v-col> ชื่อ : {{ user.name }} </v-col>
     </v-row>
 
     <v-row>
-      <v-col> faculty : {{ user.faculty }} </v-col>
+      <v-col> คณะ : {{ user.faculty }} </v-col>
     </v-row>
 
     <v-row>
-      <v-col> phonenumber : {{ user.phonenumber }} </v-col>
+      <v-col> เบอร์โทรศัพท์ : {{ user.phonenumber }} </v-col>
     </v-row>
 
     <v-row class="">
