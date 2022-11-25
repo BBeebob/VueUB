@@ -2,13 +2,15 @@
   <v-app>
     <v-main>
       <v-container fluid>
-        <v-text-field
+        <!-- <v-text-field
+          v-model="message"
           label="ค้นหาสถานที่"
           density="compact"
           variant="solo"
-          append-inner-icon="mdi-magnify"
+          append-icon="mdi-magnify"
           single-line
-        ></v-text-field>
+          @click:append="send()"
+        ></v-text-field> -->
         <!-- list -->
         <!-- <v-list :items="items" item-props lines="three" active-color="primary">
           <template v-slot:subtitle="{ subtitle }">
@@ -132,6 +134,7 @@ import {
 import { useUserStore } from "@/stores/user";
 
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import router from "../router";
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage();
@@ -148,6 +151,7 @@ export default {
   },
   data() {
     return {
+      message: this.$route.query["s"],
       dialog: false,
       dlgName: "",
       dlgPhoto: [],
@@ -162,12 +166,13 @@ export default {
   async mounted() {
     console.log(this.user);
     // เมื่อหน้าถูกเรียก ให้ดึงข้อมูลจากฐานข้อมูลแบบเรียลไทม์
-    const q = query(collection(db, "Location"), orderBy("Name"));
+    let q = query(collection(db, "Location"), orderBy("Name"));
+
     // const unsubscribe =
     onSnapshot(q, (querySnapshot) => {
       this.items = [];
       querySnapshot.forEach((doc) => {
-        const n = doc.data().Photo[0];
+        const n = doc.data().Photo[0] || "00";
         const sgImgRef = ref(storage, "images/" + doc.id + "/" + n);
         getDownloadURL(sgImgRef).then((url) => {
           // Insert url into an <img> tag to "download"
@@ -220,6 +225,11 @@ export default {
     },
   },
   methods: {
+    send() {
+      if (this.message) {
+        router.push("/?s=" + this.message);
+      }
+    },
     async dialogSave() {
       // เมื่อกดเซฟ dialog บันถึงสถานที่
       console.log("dialogSave");
