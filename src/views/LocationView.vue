@@ -208,7 +208,7 @@
             v-bind="props"
             color="primary"
             size="large"
-            style="position: fixed; right: 20px; bottom: 20px"
+            style="position: fixed; right: 60px; bottom: 25px"
             icon
           >
             <v-icon>mdi-plus</v-icon>
