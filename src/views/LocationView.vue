@@ -174,12 +174,12 @@
         active-color="primary"
       >
         <v-row>
-          <v-col sm="3" md="1"
+          <v-col cols="3" sm="1"
             ><!-- แก้ให้สวย -->
             <v-avatar class="mr-4" :color="item.color">{{ item.n }} </v-avatar>
             <!-- แก้ให้สวย --></v-col
           >
-          <v-col sm="9" md="11"
+          <v-col cols="9" sm="11"
             ><v-list-item-title>{{ item.byName }}</v-list-item-title>
 
             <v-list-item-subtitle>

@@ -26,7 +26,7 @@
         Login
       </v-btn>
     </v-app-bar>
-    <v-navigation-drawer app v-model="drawer" absolute clipped>
+    <v-navigation-drawer app v-model="drawer" clipped>
       <v-list :lines="false" nav>
         <v-list-item
           v-for="(item, i) in mItems"
