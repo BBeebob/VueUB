@@ -8,7 +8,7 @@
     <!-- --- -->
     <v-carousel cycle v-model="model1">
       <v-carousel-item v-for="(item, i) in urlImgs" :key="item" :value="i">
-        <v-sheet height="100%" tile color="grey-lighten-3">
+        <v-sheet height="100%" tile color="black">
           <div class="fill-height" cycle>
             <v-img :aspect-ratio="16 / 9" :src="item.url"></v-img>
           </div>
