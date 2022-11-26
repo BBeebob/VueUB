@@ -8,9 +8,13 @@
     <!-- --- -->
     <v-carousel cycle v-model="model1">
       <v-carousel-item v-for="(item, i) in urlImgs" :key="item" :value="i">
-        <v-sheet height="100%" tile color="black">
+        <v-sheet height="100%" tile color="grey-lighten-2">
           <div class="fill-height" cycle>
-            <v-img :aspect-ratio="16 / 9" :src="item.url"></v-img>
+            <v-img
+              class="fill-height"
+              :aspect-ratio="16 / 9"
+              :src="item.url"
+            ></v-img>
           </div>
         </v-sheet>
       </v-carousel-item>
@@ -33,15 +37,15 @@
       </v-col>
     </v-row> -->
     <v-row>
-      <v-col cols="10"
+      <v-col :cols="user.adminUser ? 10 : 12"
         ><br />
-        <b class="pl-5">รายระเอียด</b> : {{ About }}<br /><br /><br />
+        <b class="pl-5">รายระเอียด</b> : {{ About }}<br />
         <b class="pl-5">อัพเดตล่าสุด</b> : {{ new Date(TimeUpdate) }}<br />
         <b class="pl-5">เวลาที่สร้าง</b> : {{ new Date(TimeCreate) }}<br />
       </v-col>
-      <v-col cols="2">
+      <v-col cols="2" v-if="user.adminUser">
         <!-- Dialog แก้ไข  -->
-        <v-row justify="center" v-if="user.adminUser">
+        <v-row justify="center">
           <v-dialog v-model="dialogEdit" persistent>
             <template v-slot:activator="{ props }"
               ><v-btn
@@ -170,12 +174,12 @@
         active-color="primary"
       >
         <v-row>
-          <v-col cols="1"
+          <v-col sm="3" md="1"
             ><!-- แก้ให้สวย -->
             <v-avatar class="mr-4" :color="item.color">{{ item.n }} </v-avatar>
             <!-- แก้ให้สวย --></v-col
           >
-          <v-col cols="11"
+          <v-col sm="9" md="11"
             ><v-list-item-title>{{ item.byName }}</v-list-item-title>
 
             <v-list-item-subtitle>
@@ -190,7 +194,7 @@
           <v-btn
             v-if="user.uid == item.by || user.adminUser"
             color="red"
-            icon="mdi-information"
+            icon="mdi-delete-forever"
             variant="text"
             @click="del(item.id)"
           ></v-btn>
