@@ -168,7 +168,7 @@ export default {
       (v) => !!v || "ต้องใส่ชื่อและนามสกุล",
       (v) => /.+ .+/.test(v) || "ต้องใส่ชื่อและนามสกุล",
     ],
-    faculty: "",
+    faculty: null,
     facultyRules: [(v) => !!v || "ต้องใส่คณะ"],
 
     phonenumber: "",
