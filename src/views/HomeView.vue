@@ -274,8 +274,8 @@ export default {
   },
   methods: {
     send() {
-      if (this.message) {
-        router.push("/?s=" + this.message);
+      if (this.s) {
+        router.push("/?s=" + this.s);
       }
     },
     async dialogSave() {

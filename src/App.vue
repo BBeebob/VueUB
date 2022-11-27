@@ -8,6 +8,7 @@
         :color="avt.color"
         @click="profile()"
         v-if="user.loginUser"
+        style="cursor: pointer"
       >
         {{ avt.name }}
       </v-avatar>
