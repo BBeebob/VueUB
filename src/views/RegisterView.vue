@@ -60,7 +60,7 @@
               required
             ></v-text-field>
 
-            <v-autocomplete
+            <v-select
               name="faculty"
               label="กรุณาเลือกคณะ"
               append-icon="mdi-book"
@@ -75,7 +75,7 @@
                 'คณะพยาบาล',
                 'คณะเทคโนโลยีสารสนเทศฯ',
               ]"
-            ></v-autocomplete>
+            ></v-select>
 
             <!-- <v-text-field
               name="faculty"

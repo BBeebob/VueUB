@@ -180,7 +180,9 @@
             <!-- แก้ให้สวย --></v-col
           >
           <v-col cols="9" sm="11"
-            ><v-list-item-title>{{ item.byName }}</v-list-item-title>
+            ><v-list-item-title
+              >{{ item.byName }} คณะ {{ item.faculty }}</v-list-item-title
+            >
 
             <v-list-item-subtitle>
               Start :{{ item.StartDate }} - {{ item.StartTime }}<br />
@@ -345,7 +347,7 @@ export default {
       items: [
         // รายการการจอง
       ],
-      dlgAbout: "5555", //เพิ่มการจอง หมายเหตุ
+      dlgAbout: "", //เพิ่มการจอง หมายเหตุ
 
       dlgStartDate: "", //เพิ่มการจอง
       dlgStartTime: "", //เพิ่มการจอง
@@ -492,6 +494,7 @@ export default {
           by: this.user.uid,
           byName: this.user.name,
           byPic: this.user.pic,
+          byFaculty: this.user.faculty,
           status: false,
           TimeCreate: Date.now(),
           TimeUpdate: Date.now(),
@@ -575,6 +578,7 @@ export default {
           this.items.push({
             id: doc.id,
             title: doc.data().byName,
+            faculty: doc.data().byFaculty,
             error: false,
             color: avt.color,
             n: avt.name,
