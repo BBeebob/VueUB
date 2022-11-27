@@ -60,14 +60,31 @@
               required
             ></v-text-field>
 
-            <v-text-field
+            <v-autocomplete
+              name="faculty"
+              label="กรุณาเลือกคณะ"
+              append-icon="mdi-book"
+              v-model="faculty"
+              :rules="facultyRules"
+              :items="[
+                'คณะวิทยาการคอมพิวเตอร์',
+                'คณะวิทยาศาสตร์',
+                'คณะเศรษฐศาสตร์',
+                'คณะนิติศาสตร์',
+                'คณะวิทยาศาสตร์การกีฬา',
+                'คณะพยาบาล',
+                'คณะเทคโนโลยีสารสนเทศฯ',
+              ]"
+            ></v-autocomplete>
+
+            <!-- <v-text-field
               name="faculty"
               append-icon="mdi-book"
               clearable
               v-model="faculty"
               :rules="facultyRules"
               label="กรุณากรอกคณะ"
-            ></v-text-field>
+            ></v-text-field> -->
 
             <v-text-field
               name="phonenumber"
