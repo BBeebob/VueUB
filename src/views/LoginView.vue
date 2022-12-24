@@ -154,7 +154,7 @@ export default {
     },
     repass() {
       // รีรหัส
-      let emailrepass = prompt("โปรดใส่อีเมลสำหรับรีพาสเวิส");
+      let emailrepass = prompt("โปรดใส่อีเมลสำหรับเปลี่ยนพาสเวิส");
       if (emailrepass) {
         sendPasswordResetEmail(auth, emailrepass)
           .then(() => {

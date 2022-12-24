@@ -60,13 +60,25 @@
                 <!-- --------- -->
 
                 <v-col cols="12">
-                  <v-text-field
-                    label="คณะ"
-                    required
-                    clearable
+                  <v-select
+                    name="faculty"
+                    label="กรุณาเลือกคณะ"
                     v-model="faculty"
-                    :role="facultyRules"
-                  ></v-text-field>
+                    :rules="facultyRules"
+                    :items="[
+                      'คณะวิทยาการคอมพิวเตอร์',
+                      'คณะวิทยาศาสตร์',
+                      'คณะเศรษฐศาสตร์',
+                      'คณะนิติศาสตร์',
+                      'คณะวิทยาศาสตร์การกีฬา',
+                      'คณะพยาบาล',
+                      'คณะเทคโนโลยีสารสนเทศฯ',
+                      'คณะวิศวกรรมศาสตร์',
+                      'คณะครุศาสตร์',
+                      'คณะรัฐศาสตร์',
+                      'คณะมนุษยศาสตร์',
+                    ]"
+                  ></v-select>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -202,7 +214,7 @@ export default {
         .then(() => {
           // Password reset email sent!
 
-          alert("โปรดดรวจดูที่ อีเมลของท่าน เมลอาจอยู่ในถังขยะ");
+          alert("โปรดดรวจดูอีเมลของท่าน เมลอาจอยู่ในถังขยะ");
         })
         .catch((error) => {
           alert(error.message);
